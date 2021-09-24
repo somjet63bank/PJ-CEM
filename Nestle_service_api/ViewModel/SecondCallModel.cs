@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nestle_service_api.Model
+namespace Nestle_service_api.ViewModel
 {
-    public class tb_outbound_second_call : BaseEntity
+    public class SecondCallModel
     {
+        public Int32 Id { get; set; }
         public DateTime ob_date { get; set; }
         public string ob_time { get; set; }
         public string contact_status { get; set; }

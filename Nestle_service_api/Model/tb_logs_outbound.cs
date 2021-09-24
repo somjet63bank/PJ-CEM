@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Nestle_service_api.Model
 {
-    public class tb_logs_outbound
+    public class tb_logs_outbound : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 Id { get; set; }
         public Int32 case_id { get; set; }
         public Int32 aqent_id { get; set; }
         public DateTime create_date { get; set; }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Nestle_service_api.Model
 {
-    public class tb_outbound_frist_call
+    public class tb_outbound_frist_call : BaseEntity
     {
         public DateTime ob_date { get; set; }
         public string ob_time { get; set; }
