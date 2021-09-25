@@ -106,7 +106,7 @@ namespace Nestle_service_api.BL.Inbound
         }
         public async Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip, int take)
         {
-            var query = inboundCaseRepository.Table.Where(x => x.IsActive);
+            var query = inboundCaseRepository.Table.Where(x => x.IsActive && x.sratus_case != "Close");
 
             if (!string.IsNullOrEmpty(key))
                 query = query.Where(x => x.name.Contains(key) || x.contact_number.Contains(key));
@@ -115,6 +115,7 @@ namespace Nestle_service_api.BL.Inbound
             var inboundCases = query.OrderBy(x => x.CreatedDate).Get(out total, skip, take)
                                 .Select(s => new InboundCaseModel
                                 {
+                                    Id = s.Id,
                                     inbound_call_date = s.inbound_call_date,
                                     case_open_time = s.case_open_time,
                                     case_id = s.case_id,
