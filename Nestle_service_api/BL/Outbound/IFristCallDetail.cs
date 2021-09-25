@@ -19,6 +19,7 @@ namespace Nestle_service_api.BL.Outbound
         Task<ResponseViewModel<FristCallModel>> GetFristCallAll( string key, int skip, int take);
         Task<ResponseViewModel<SecondCallModel>> GetSecondCallAll(string key, int skip, int take);
         Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundCallDetailAsync(string KeywordSearch ,int PageNumber);
-        
+        Task<int> ExecuteConsumerSegment(string id);
+
     }
 }

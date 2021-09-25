@@ -280,5 +280,20 @@ namespace Nestle_service_api.BL.Outbound
                 throw;
             }
         }
+
+        public async Task<int> ExecuteConsumerSegment(string id_master)
+        {
+            try
+            {
+                int total = 0;
+                var Result = await context.Database.ExecuteSqlRawAsync("EXEC dbo.sp_i_consumer_segment @id_master={0}", id_master);
+
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

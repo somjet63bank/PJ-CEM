@@ -149,5 +149,19 @@ namespace Nestle_service_api.Controllers
                 return BadRequest(ex.GetFullErrorText().Message);
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> ExecuteConsumerSegment(string Idmaster)
+        {
+            try
+            {
+                return Ok(await fristCallDetail.ExecuteConsumerSegment(Idmaster));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+        
     }
 }

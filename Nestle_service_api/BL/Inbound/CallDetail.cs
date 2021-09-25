@@ -25,8 +25,27 @@ namespace Nestle_service_api.BL.Inbound
         public async Task<bool> AddOrUpdate(InboundCaseModel inboundCase)
         {
 
-            var inboundCasep = inboundCaseRepository.Table.Where(x => x.IsActive && x.Id == inboundCase.Id).FirstOrDefault();
-            if (inboundCase != null)
+            var inboundCasep = inboundCaseRepository.Table.Where(x => x.IsActive && x.case_id == inboundCase.case_id).FirstOrDefault();
+            var inb = inboundCaseRepository.Table.Where(x => x.IsActive).OrderByDescending(x => x.case_id).FirstOrDefault();
+
+            string CaseId = string.Empty;
+            if (inb != null)
+            {
+                if (!string.IsNullOrWhiteSpace(inb.case_id))
+                {
+                    CaseId = GenerateCaseId(Convert.ToInt32(inb.case_id));
+                }
+                else
+                {
+                    CaseId = "001";
+                }
+            }
+            else
+            {
+                CaseId = "001";
+            }
+
+            if (inboundCasep != null)
             {
                 inboundCasep.case_open_time = inboundCase.case_open_time;
                 inboundCasep.contact_channel = inboundCase.contact_channel;
@@ -50,7 +69,7 @@ namespace Nestle_service_api.BL.Inbound
                 {
                     inbound_call_date = inboundCase.inbound_call_date,
                     case_open_time = inboundCase.case_open_time,
-                    case_id = inboundCase.case_id,
+                    case_id = CaseId,
                     contact_channel = inboundCase.contact_channel,
                     name = inboundCase.name,
                     surname = inboundCase.surname,
@@ -68,6 +87,12 @@ namespace Nestle_service_api.BL.Inbound
 
 
             return true;
+        }
+
+        private string GenerateCaseId(int lastAddedId)
+        {
+            string caseId = Convert.ToString(lastAddedId + 1).PadLeft(3, '0');
+            return caseId;
         }
         public async Task<bool> Delete(int id)
         {
@@ -141,7 +166,7 @@ namespace Nestle_service_api.BL.Inbound
             if (inboundCase != null)
             {
                 inboundCase.number_of_calls += 1;
-               await  inboundCaseRepository.UpdateAsync(inboundCase);
+                await inboundCaseRepository.UpdateAsync(inboundCase);
             }
 
             var outboundlogs = inboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number).FirstOrDefault();

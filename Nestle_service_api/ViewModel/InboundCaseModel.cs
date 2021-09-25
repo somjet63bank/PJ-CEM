@@ -10,7 +10,7 @@ namespace Nestle_service_api.ViewModel
         public Int32 Id { get; set; }
         public DateTime inbound_call_date { get; set; }
         public string case_open_time { get; set; }
-        public Int32 case_id { get; set; }
+        public string case_id { get; set; }
         public string contact_channel { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
