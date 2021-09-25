@@ -30,6 +30,7 @@ namespace Nestle_service_api.Model
         public string isstatus { get; set; }
         public DateTime datesave { get; set; }
         public string RefID { get; set; }
+        public int number_of_calls { get; set; }
     }
     
 }

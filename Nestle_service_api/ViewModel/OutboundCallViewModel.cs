@@ -17,6 +17,8 @@ namespace Nestle_service_api.ViewModel
         public string facebook { get; set; }
         public string email { get; set; }
         public string house_number { get; set; }
+        public string employee { get; set; }
+        public string tellscorelink { get; set; }
         public string village { get; set; }
         public string swine { get; set; }
         public string road { get; set; }

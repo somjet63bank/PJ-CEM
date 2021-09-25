@@ -16,15 +16,18 @@ namespace Nestle_service_api.BL.Outbound
         private readonly IEfRepository<tb_outbound_frist_call> fristcallRepository;
         private readonly IEfRepository<tb_outbound_second_call> secondcallRepository;
         private readonly IEfRepository<tb_logs_outbound> outboundlogsRepository;
+        private readonly Nestle_Connect nestle_Connect;
         private readonly SPContext context;
         public FristCallDetail(IEfRepository<tb_outbound_frist_call> _fristcallRepository,
                          IEfRepository<tb_outbound_second_call> _secondcallRepository,
                          IEfRepository<tb_logs_outbound> _outboundlogsRepository,
+                         Nestle_Connect _nestle_Connect,
                          SPContext _context)
         {
             fristcallRepository = _fristcallRepository;
             secondcallRepository = _secondcallRepository;
             outboundlogsRepository = _outboundlogsRepository;
+            nestle_Connect = _nestle_Connect;
             context = _context;
         }
 
@@ -34,8 +37,8 @@ namespace Nestle_service_api.BL.Outbound
             var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.Id == fristCallModel.Id).FirstOrDefault();
             if (fristcall != null)
             {
-                fristcall.ob_date = fristcall.ob_date;
-                fristcall.ob_time = fristcall.ob_time;
+                fristcall.ob_date = DateTime.Now;
+                fristcall.ob_time = DateTime.Now.ToLongTimeString();
                 fristcall.contact_status = fristcall.contact_status;
                 fristcall.consurmer_name = fristcall.consurmer_name;
                 fristcall.consurmer_surmer = fristcall.consurmer_surmer;
@@ -53,8 +56,8 @@ namespace Nestle_service_api.BL.Outbound
             {
                 var _fristcall = new tb_outbound_frist_call
                 {
-                    ob_date = fristcall.ob_date,
-                    ob_time = fristcall.ob_time,
+                    ob_date = DateTime.Now,
+                    ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
                     contact_status = fristcall.contact_status,
                     consurmer_name = fristcall.consurmer_name,
                     consurmer_surmer = fristcall.consurmer_surmer,
@@ -82,8 +85,8 @@ namespace Nestle_service_api.BL.Outbound
             var secondcall = secondcallRepository.Table.Where(x => x.IsActive && x.Id == secondCallModel.Id).FirstOrDefault();
             if (secondcall != null)
             {
-                secondcall.ob_date = secondCallModel.ob_date;
-                secondcall.ob_time = secondCallModel.ob_time;
+                secondcall.ob_date = DateTime.Now;
+                secondcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
                 secondcall.consurmer_surmer = secondCallModel.consurmer_surmer;
@@ -235,12 +238,23 @@ namespace Nestle_service_api.BL.Outbound
 
         public async Task<bool> AddLog(tb_logs_outbound logsInbound)
         {
+            var registerHeading = nestle_Connect.tb_RegisterHeading.Where(x => x.id_master == logsInbound.case_id).FirstOrDefault();
+
+            if (registerHeading != null)
+            {
+                registerHeading.number_of_calls += 1;
+                nestle_Connect.tb_RegisterHeading.Update(registerHeading);
+                nestle_Connect.SaveChanges();
+            }
+
+            var outboundlogs = outboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number).FirstOrDefault();
+
             var inbound = new tb_logs_outbound
             {
                 case_id = logsInbound.case_id,
                 aqent_id = logsInbound.aqent_id,
                 create_date = DateTime.Now,
-                number = logsInbound.number,
+                number = outboundlogs == null ? 1 : outboundlogs.number + 1,
                 status_of_case = logsInbound.status_of_case,
                 status_of_contact = logsInbound.status_of_contact,
                 CreatedBy = UserName,
@@ -252,13 +266,14 @@ namespace Nestle_service_api.BL.Outbound
             return true;
         }
 
-        public async Task<List<OutboundCallViewModel>> GetOutboundCallDetailAsync(int PageNumber)
+        public async Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundCallDetailAsync(string KeywordSearch, int PageNumber)
         {
             try
             {
-                var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetAllOutboundCall @PageNumber={0}", PageNumber).ToList();
+                int total = 0;
+                var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetAllOutboundCall @KeywordSearch={0}, @PageNumber={1}", KeywordSearch, PageNumber).ToList();
 
-                return Results;
+                return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; ;
             }
             catch (Exception ex)
             {

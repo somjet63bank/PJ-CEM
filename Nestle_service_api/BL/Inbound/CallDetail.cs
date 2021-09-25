@@ -18,7 +18,7 @@ namespace Nestle_service_api.BL.Inbound
         public CallDetail(IEfRepository<tb_inbound_case> _inboundCaseRepository,
                          IEfRepository<tb_logs_inbound> _inboundlogsRepository)
         {
-            inboundlogsRepository = _inboundlogsRepository;
+            inboundCaseRepository = _inboundCaseRepository;
             inboundlogsRepository = _inboundlogsRepository;
         }
 
@@ -134,12 +134,22 @@ namespace Nestle_service_api.BL.Inbound
 
         public async Task<bool> AddLog(tb_logs_inbound logsInbound)
         {
+
+            var inboundCase = inboundCaseRepository.Table.Where(x => x.case_id == logsInbound.case_id).FirstOrDefault();
+
+            if (inboundCase != null)
+            {
+                inboundCase.number_of_calls += 1;
+               await  inboundCaseRepository.UpdateAsync(inboundCase);
+            }
+
+            var outboundlogs = inboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number).FirstOrDefault();
             var inbound = new tb_logs_inbound
             {
                 case_id = logsInbound.case_id,
                 aqent_id = logsInbound.aqent_id,
                 create_date = DateTime.Now,
-                number = logsInbound.number,
+                number = logsInbound == null ? 1 : logsInbound.number + 1,
                 status_of_case = logsInbound.status_of_case,
                 status_of_contact = logsInbound.status_of_contact,
                 CreatedBy = UserName,

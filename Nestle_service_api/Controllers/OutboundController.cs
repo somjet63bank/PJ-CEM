@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Nestle_service_api.BL.Outbound;
 using Nestle_service_api.Common;
+using Nestle_service_api.Model;
 using Nestle_service_api.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,11 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOutboundCallAll(int PageNumber)
+        public async Task<IActionResult> GetOutboundCallAll(string KeywordSearch ,int PageNumber)
         {
             try
             {
-                return Ok(await fristCallDetail.GetOutboundCallDetailAsync(PageNumber));
+                return Ok(await fristCallDetail.GetOutboundCallDetailAsync(KeywordSearch,PageNumber));
             }
             catch (Exception ex)
             {
@@ -44,6 +45,20 @@ namespace Nestle_service_api.Controllers
             try
             {
                 return Ok(await fristCallDetail.AddOrUpdate(fristCall));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLog(tb_logs_outbound logsOutbound)
+        {
+            try
+            {
+                return Ok(await fristCallDetail.AddLog(logsOutbound));
             }
             catch (Exception ex)
             {

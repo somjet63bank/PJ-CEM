@@ -9,7 +9,7 @@ namespace Nestle_service_api.Model
 {
     public class tb_logs_outbound : BaseEntity
     {
-        public Int32 case_id { get; set; }
+        public string case_id { get; set; }
         public Int32 aqent_id { get; set; }
         public DateTime create_date { get; set; }
         public Int32 number { get; set; }
