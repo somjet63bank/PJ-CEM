@@ -16,7 +16,7 @@ namespace Nestle_service_api.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StoreViewModel>().HasNoKey().ToView(null);
+            modelBuilder.Entity<OutboundCallViewModel>().HasNoKey().ToView(null);
         }
 
     }

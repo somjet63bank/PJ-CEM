@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Nestle_service_api.BL.Inbound;
+using Nestle_service_api.BL.Outbound;
 
 namespace Nestle_service_api
 {
@@ -38,6 +41,7 @@ namespace Nestle_service_api
 
             });
             services.AddDbContext<Nestle_Connect>(options => options.UseSqlServer(Configuration.GetConnectionString("DbNestle_CEM")));
+            services.AddDbContext<SPContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbNestle_CEM")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -45,7 +49,13 @@ namespace Nestle_service_api
                     Title = "Nestle-Servive-Api",
                     Version = "v1"
                 });
-            });            
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
+            services.AddTransient<ICallDetail, CallDetail>();
+            services.AddTransient<IFristCallDetail, FristCallDetail>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

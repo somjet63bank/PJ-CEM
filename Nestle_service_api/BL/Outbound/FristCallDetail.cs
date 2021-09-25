@@ -252,11 +252,11 @@ namespace Nestle_service_api.BL.Outbound
             return true;
         }
 
-        public async Task<List<StoreViewModel>> GetOutboundCallDetailAsync(string status)
+        public async Task<List<OutboundCallViewModel>> GetOutboundCallDetailAsync(int PageNumber)
         {
             try
             {
-                var Results = context.Set<StoreViewModel>().FromSqlRaw("EXEC dbo.SP_Get_2ndStep @status={0}", status).ToList();
+                var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetAllOutboundCall @PageNumber={0}", PageNumber).ToList();
 
                 return Results;
             }
