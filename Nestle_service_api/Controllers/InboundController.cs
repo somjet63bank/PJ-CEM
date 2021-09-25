@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Nestle_service_api.BL.Inbound;
 using Nestle_service_api.Common;
+using Nestle_service_api.Model;
 using Nestle_service_api.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,20 @@ namespace Nestle_service_api.Controllers
             try
             {
                 return Ok(await callDetail.Get( key, skip, take));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLog(tb_logs_inbound logsInbound)
+        {
+            try
+            {
+                return Ok(await callDetail.AddLog(logsInbound));
             }
             catch (Exception ex)
             {

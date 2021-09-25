@@ -1,4 +1,5 @@
 ﻿
+using Nestle_service_api.Model;
 using Nestle_service_api.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Nestle_service_api.BL.Inbound
         Task<bool> AddOrUpdate(InboundCaseModel inboundCase);
         Task<bool> Delete(int id);
         Task<InboundCaseModel> Get(int id);
-        Task<ResponseViewModel<InboundCaseModel>> Get( string key, int skip, int take);
+        Task<bool> AddLog(tb_logs_inbound logsInbound);
+        Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip, int take);
     }
 }
