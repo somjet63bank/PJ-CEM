@@ -28,35 +28,18 @@ namespace Nestle_service_api.BL.Inbound
             var inboundCasep = inboundCaseRepository.Table.Where(x => x.IsActive && x.case_id == inboundCase.case_id).FirstOrDefault();
             var inb = inboundCaseRepository.Table.Where(x => x.IsActive).OrderByDescending(x => x.case_id).FirstOrDefault();
 
-            string CaseId = string.Empty;
-            if (inb != null)
-            {
-                if (!string.IsNullOrWhiteSpace(inb.case_id))
-                {
-                    CaseId = GenerateCaseId(Convert.ToInt32(inb.case_id));
-                }
-                else
-                {
-                    CaseId = "001";
-                }
-            }
-            else
-            {
-                CaseId = "001";
-            }
-
             if (inboundCasep != null)
             {
-                inboundCasep.case_open_time = inboundCase.case_open_time;
-                inboundCasep.contact_channel = inboundCase.contact_channel;
-                inboundCasep.contact_number = inboundCase.contact_number;
-                inboundCasep.case_id = inboundCase.case_id;
                 inboundCasep.inbound_call_date = inboundCase.inbound_call_date;
+                inboundCasep.case_open_time = inboundCase.case_open_time;
+                inboundCasep.case_id = inboundCase.case_id;
+                inboundCasep.contact_channel = inboundCase.contact_channel;
                 inboundCasep.name = inboundCase.name;
                 inboundCasep.surname = inboundCase.surname;
+                inboundCasep.contact_number = inboundCase.contact_number;
                 inboundCasep.service_group = inboundCase.service_group;
-                inboundCasep.service_requst_verbatim = inboundCase.service_requst_verbatim;
                 inboundCasep.service_type = inboundCase.service_type;
+                inboundCasep.service_requst_verbatim = inboundCase.service_requst_verbatim;
                 inboundCasep.solution = inboundCase.solution;
                 inboundCasep.sratus_case = inboundCase.sratus_case;
                 inboundCasep.UpdatedBy = UserName;
@@ -65,10 +48,27 @@ namespace Nestle_service_api.BL.Inbound
             }
             else
             {
+                string CaseId = string.Empty;
+                if (inb != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(inb.case_id))
+                    {
+                        CaseId = GenerateCaseId(Convert.ToInt32(inb.case_id));
+                    }
+                    else
+                    {
+                        CaseId = "001";
+                    }
+                }
+                else
+                {
+                    CaseId = "001";
+                }
+
                 var inbound = new tb_inbound_case
                 {
-                    inbound_call_date = inboundCase.inbound_call_date,
-                    case_open_time = inboundCase.case_open_time,
+                    inbound_call_date = DateTime.Now,
+                    case_open_time = DateTime.Now.ToString("HH:mm:ss tt"),
                     case_id = CaseId,
                     contact_channel = inboundCase.contact_channel,
                     name = inboundCase.name,
@@ -88,7 +88,6 @@ namespace Nestle_service_api.BL.Inbound
 
             return true;
         }
-
         private string GenerateCaseId(int lastAddedId)
         {
             string caseId = Convert.ToString(lastAddedId + 1).PadLeft(3, '0');
@@ -152,7 +151,8 @@ namespace Nestle_service_api.BL.Inbound
                                     service_type = s.service_type,
                                     service_requst_verbatim = s.service_requst_verbatim,
                                     solution = s.solution,
-                                    sratus_case = s.sratus_case
+                                    sratus_case = s.sratus_case,
+                                    number_of_calls = s.number_of_calls
                                 });
 
             return new ResponseViewModel<InboundCaseModel> { data = inboundCases.ToList(), totalCount = total };
@@ -169,13 +169,13 @@ namespace Nestle_service_api.BL.Inbound
                 await inboundCaseRepository.UpdateAsync(inboundCase);
             }
 
-            var outboundlogs = inboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number).FirstOrDefault();
+            var inboundlog = inboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number).FirstOrDefault();
             var inbound = new tb_logs_inbound
             {
                 case_id = logsInbound.case_id,
                 aqent_id = logsInbound.aqent_id,
                 create_date = DateTime.Now,
-                number = logsInbound == null ? 1 : logsInbound.number + 1,
+                number = inboundlog == null ? 1 : inboundlog.number + 1,
                 status_of_case = logsInbound.status_of_case,
                 status_of_contact = logsInbound.status_of_contact,
                 CreatedBy = UserName,

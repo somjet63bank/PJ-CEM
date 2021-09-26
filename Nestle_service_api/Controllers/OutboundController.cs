@@ -26,11 +26,11 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOutboundCallAll(string KeywordSearch ,int PageNumber)
+        public async Task<IActionResult> GetOutboundCallAll(string KeywordSearch, int PageNumber)
         {
             try
             {
-                return Ok(await fristCallDetail.GetOutboundCallDetailAsync(KeywordSearch,PageNumber));
+                return Ok(await fristCallDetail.GetOutboundCallDetailAsync(KeywordSearch, PageNumber));
             }
             catch (Exception ex)
             {
@@ -162,6 +162,6 @@ namespace Nestle_service_api.Controllers
                 return BadRequest(ex.GetFullErrorText().Message);
             }
         }
-        
+
     }
 }

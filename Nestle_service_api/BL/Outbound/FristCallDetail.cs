@@ -37,8 +37,8 @@ namespace Nestle_service_api.BL.Outbound
             var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.Id == fristCallModel.Id).FirstOrDefault();
             if (fristcall != null)
             {
-                fristcall.ob_date = DateTime.Now;
-                fristcall.ob_time = DateTime.Now.ToLongTimeString();
+                fristcall.ob_date = fristCallModel.ob_date;
+                fristcall.ob_time = fristCallModel.ob_time;
                 fristcall.contact_status = fristcall.contact_status;
                 fristcall.consurmer_name = fristcall.consurmer_name;
                 fristcall.consurmer_surmer = fristcall.consurmer_surmer;
@@ -285,7 +285,6 @@ namespace Nestle_service_api.BL.Outbound
         {
             try
             {
-                int total = 0;
                 var Result = await context.Database.ExecuteSqlRawAsync("EXEC dbo.sp_i_consumer_segment @id_master={0}", id_master);
 
                 return Result;
