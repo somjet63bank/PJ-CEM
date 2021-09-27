@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Nestle_service_api.BL.Outbound
 {
-    public class FirstOrSecondCallDetail : BaseBLL, IFirstOrSecondCallDetail
+    public class FirstOrSecondCallDetail : BaseBLL, IFirstOrSecondCallDetail 
     {
         private readonly IEfRepository<tb_outbound_first_call> fristcallRepository;
         private readonly IEfRepository<tb_outbound_second_call> secondcallRepository;
