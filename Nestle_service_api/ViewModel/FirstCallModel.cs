@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Nestle_service_api.ViewModel
 {
-    public class FristCallModel
+    public class FirstCallModel
     {
         public int Id { get; set; }
         public DateTime ob_date { get; set; }

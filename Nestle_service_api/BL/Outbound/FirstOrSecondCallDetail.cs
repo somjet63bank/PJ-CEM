@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Nestle_service_api.BL.Outbound
 {
-    public class FristCallDetail : BaseBLL, IFristCallDetail
+    public class FirstOrSecondCallDetail : BaseBLL, IFirstOrSecondCallDetail
     {
-        private readonly IEfRepository<tb_outbound_frist_call> fristcallRepository;
+        private readonly IEfRepository<tb_outbound_first_call> fristcallRepository;
         private readonly IEfRepository<tb_outbound_second_call> secondcallRepository;
         private readonly IEfRepository<tb_logs_outbound> outboundlogsRepository;
         private readonly Nestle_Connect nestle_Connect;
         private readonly SPContext context;
-        public FristCallDetail(IEfRepository<tb_outbound_frist_call> _fristcallRepository,
+        public FirstOrSecondCallDetail(IEfRepository<tb_outbound_first_call> _fristcallRepository,
                          IEfRepository<tb_outbound_second_call> _secondcallRepository,
                          IEfRepository<tb_logs_outbound> _outboundlogsRepository,
                          Nestle_Connect _nestle_Connect,
@@ -31,7 +31,7 @@ namespace Nestle_service_api.BL.Outbound
             context = _context;
         }
 
-        public async Task<bool> AddOrUpdate(FristCallModel fristCallModel)
+        public async Task<bool> AddOrUpdate(FirstCallModel fristCallModel)
         {
 
             var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.Id == fristCallModel.Id).FirstOrDefault();
@@ -39,34 +39,36 @@ namespace Nestle_service_api.BL.Outbound
             {
                 fristcall.ob_date = fristCallModel.ob_date;
                 fristcall.ob_time = fristCallModel.ob_time;
-                fristcall.contact_status = fristcall.contact_status;
-                fristcall.consurmer_name = fristcall.consurmer_name;
-                fristcall.consurmer_surmer = fristcall.consurmer_surmer;
-                fristcall.owner_mobile_number = fristcall.owner_mobile_number;
-                fristcall.use_discount_code = fristcall.use_discount_code;
-                fristcall.discount_code_for = fristcall.discount_code_for;
-                fristcall.discount_code_exp_date = fristcall.discount_code_exp_date;
-                fristcall.interested_brand_ambassador = fristcall.interested_brand_ambassador;
-                fristcall.tellscore_registration_status = fristcall.tellscore_registration_status;
+                fristcall.contact_status = fristCallModel.contact_status;
+                fristcall.consurmer_name = fristCallModel.consurmer_name;
+                fristcall.consurmer_surmer = fristCallModel.consurmer_surmer;
+                fristcall.owner_mobile_number = fristCallModel.owner_mobile_number;
+                fristcall.use_discount_code = fristCallModel.use_discount_code;
+                fristcall.discount_code_for = fristCallModel.discount_code_for;
+                fristcall.discount_code_exp_date = fristCallModel.discount_code_exp_date;
+                fristcall.interested_brand_ambassador = fristCallModel.interested_brand_ambassador;
+                fristcall.tellscore_registration_status = fristCallModel.tellscore_registration_status;
+                fristcall.case_id = fristCallModel.case_id;
                 fristcall.UpdatedBy = UserName;
                 fristcall.UpdatedDate = DateTime.Now;
                 await fristcallRepository.UpdateAsync(fristcall);
             }
             else
             {
-                var _fristcall = new tb_outbound_frist_call
+                var _fristcall = new tb_outbound_first_call
                 {
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
-                    contact_status = fristcall.contact_status,
-                    consurmer_name = fristcall.consurmer_name,
-                    consurmer_surmer = fristcall.consurmer_surmer,
-                    owner_mobile_number = fristcall.owner_mobile_number,
-                    use_discount_code = fristcall.use_discount_code,
-                    discount_code_for = fristcall.discount_code_for,
-                    discount_code_exp_date = fristcall.discount_code_exp_date,
-                    interested_brand_ambassador = fristcall.interested_brand_ambassador,
-                    tellscore_registration_status = fristcall.tellscore_registration_status,
+                    contact_status = fristCallModel.contact_status,
+                    consurmer_name = fristCallModel.consurmer_name,
+                    consurmer_surmer = fristCallModel.consurmer_surmer,
+                    owner_mobile_number = fristCallModel.owner_mobile_number,
+                    use_discount_code = fristCallModel.use_discount_code,
+                    discount_code_for = fristCallModel.discount_code_for,
+                    discount_code_exp_date = fristCallModel.discount_code_exp_date,
+                    interested_brand_ambassador = fristCallModel.interested_brand_ambassador,
+                    tellscore_registration_status = fristCallModel.tellscore_registration_status,
+                    case_id = fristCallModel.case_id,
                     UpdatedBy = UserName,
                     UpdatedDate = DateTime.Now,
                     CreatedBy = UserName,
@@ -136,10 +138,10 @@ namespace Nestle_service_api.BL.Outbound
             return await fristcallRepository.UpdateAsync(inboundCase);
 
         }
-        public async Task<FristCallModel> GetFristCall(int id)
+        public async Task<FirstCallModel> GetFirstCall(int id)
         {
             var fristcall = await fristcallRepository.Table.Where(x => x.Id == id)
-                                          .Select(s => new FristCallModel
+                                          .Select(s => new FirstCallModel
                                           {
                                               Id = s.Id,
                                               ob_date = s.ob_date,
@@ -181,7 +183,7 @@ namespace Nestle_service_api.BL.Outbound
 
             return secondcall;
         }
-        public async Task<ResponseViewModel<FristCallModel>> GetFristCallAll(string key, int skip, int take)
+        public async Task<ResponseViewModel<FirstCallModel>> GetFirstCallAll(string key, int skip, int take)
         {
             var query = fristcallRepository.Table.Where(x => x.IsActive);
 
@@ -190,7 +192,7 @@ namespace Nestle_service_api.BL.Outbound
 
             int total = 0;
             var fristcall = query.OrderBy(x => x.CreatedDate).Get(out total, skip, take)
-                                .Select(s => new FristCallModel
+                                .Select(s => new FirstCallModel
                                 {
                                     Id = s.Id,
                                     ob_date = s.ob_date,
@@ -206,7 +208,7 @@ namespace Nestle_service_api.BL.Outbound
                                     tellscore_registration_status = s.tellscore_registration_status
                                 });
 
-            return new ResponseViewModel<FristCallModel> { data = fristcall.ToList(), totalCount = total };
+            return new ResponseViewModel<FirstCallModel> { data = fristcall.ToList(), totalCount = total };
         }
 
         public async Task<ResponseViewModel<SecondCallModel>> GetSecondCallAll(string key, int skip, int take)
@@ -266,12 +268,27 @@ namespace Nestle_service_api.BL.Outbound
             return true;
         }
 
-        public async Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundCallDetailAsync(string KeywordSearch, int PageNumber)
+        public async Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundFirstCallAsync(string KeywordSearch, int PageNumber)
         {
             try
             {
                 int total = 0;
                 var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetAllOutboundCall @KeywordSearch={0}, @PageNumber={1}", KeywordSearch, PageNumber).ToList();
+
+                return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; ;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundSecondCallAsync(string KeywordSearch, int PageNumber)
+        {
+            try
+            {
+                int total = 0;
+                var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetAllOutboundSecondCall @KeywordSearch={0}, @PageNumber={1}", KeywordSearch, PageNumber).ToList();
 
                 return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; ;
             }

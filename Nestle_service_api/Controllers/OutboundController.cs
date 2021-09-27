@@ -17,20 +17,34 @@ namespace Nestle_service_api.Controllers
     [ApiController]
     public class OutboundController : ControllerBase
     {
-        private readonly IFristCallDetail fristCallDetail;
+        private readonly IFirstOrSecondCallDetail fristCallDetail;
         private readonly ILogger<OutboundController> logger;
-        public OutboundController(IFristCallDetail _fristCallDetail, ILogger<OutboundController> _logger)
+        public OutboundController(IFirstOrSecondCallDetail _fristCallDetail, ILogger<OutboundController> _logger)
         {
             fristCallDetail = _fristCallDetail;
             logger = _logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOutboundCallAll(string KeywordSearch, int PageNumber)
+        public async Task<IActionResult> GetOutboundFistCallAll(string KeywordSearch, int PageNumber)
         {
             try
             {
-                return Ok(await fristCallDetail.GetOutboundCallDetailAsync(KeywordSearch, PageNumber));
+                return Ok(await fristCallDetail.GetOutboundFirstCallAsync(KeywordSearch, PageNumber));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOutboundSecondCallAll(string KeywordSearch, int PageNumber)
+        {
+            try
+            {
+                return Ok(await fristCallDetail.GetOutboundSecondCallAsync(KeywordSearch, PageNumber));
             }
             catch (Exception ex)
             {
@@ -40,7 +54,7 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrUpdateFristCall(FristCallModel fristCall)
+        public async Task<IActionResult> AddOrUpdateFristCall(FirstCallModel fristCall)
         {
             try
             {
@@ -96,11 +110,11 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFristCall(int id)
+        public async Task<IActionResult> GetFirstCall(int id)
         {
             try
             {
-                return Ok(await fristCallDetail.GetFristCall(id));
+                return Ok(await fristCallDetail.GetFirstCall(id));
             }
             catch (Exception ex)
             {
@@ -123,11 +137,11 @@ namespace Nestle_service_api.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> FilterFristCall(string key, int skip, int take)
+        public async Task<IActionResult> FilterFirstCall(string key, int skip, int take)
         {
             try
             {
-                return Ok(await fristCallDetail.GetFristCallAll(key, skip, take));
+                return Ok(await fristCallDetail.GetFirstCallAll(key, skip, take));
             }
             catch (Exception ex)
             {

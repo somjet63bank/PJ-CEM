@@ -55,7 +55,7 @@ namespace Nestle_service_api
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddTransient<ICallDetail, CallDetail>();
-            services.AddTransient<IFristCallDetail, FristCallDetail>();
+            services.AddTransient<IFirstOrSecondCallDetail, FirstOrSecondCallDetail>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
