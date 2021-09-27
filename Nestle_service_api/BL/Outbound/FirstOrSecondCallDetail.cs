@@ -20,7 +20,7 @@ namespace Nestle_service_api.BL.Outbound
         private readonly SPContext context;
         public FirstOrSecondCallDetail(IEfRepository<tb_outbound_first_call> _fristcallRepository,
                          IEfRepository<tb_outbound_second_call> _secondcallRepository,
-                         IEfRepository<tb_logs_outbound> _outboundlogsRepository,
+                         IEfRepository<tb_logs_outbound> _outboundlogsRepository, 
                          Nestle_Connect _nestle_Connect,
                          SPContext _context)
         {
