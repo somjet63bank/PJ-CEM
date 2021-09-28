@@ -26,7 +26,8 @@ namespace Nestle_service_api.Controllers
         [HttpPost]
         public ActionResult<string> SendMsg(prmSms S)
         {
-
+            string _msg = S.Msgs;
+            string new_msg = _msg.Replace('\"', ' ');
             if (_sendSMS_dtac(S.Senders,S.RefID,S.ProjectID,S.phone_no,S.Msgs) == true)
             {
                 return Ok();
@@ -39,7 +40,7 @@ namespace Nestle_service_api.Controllers
         }
         private bool _sendSMS_dtac(string _sender, string _refID, string _projectID, string _telno, string _msg)
         {
-
+            
             try
             {
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api05.fcc.co.th/api/Send_SMS/SendMsg");
