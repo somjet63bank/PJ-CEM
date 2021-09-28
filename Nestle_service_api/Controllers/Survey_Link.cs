@@ -235,10 +235,18 @@ namespace Nestle_service_api.Controllers
         [HttpGet]
         public async Task<IActionResult> Getsegment(string idmaster)
         {
+            try
+            {
+                var Results = context.Set<tb_segment>().FromSqlRaw("EXEC dbo.sp_segment @Idmaster={0}", idmaster).ToList();
 
-            var Results = context.Set<tb_segment>().FromSqlRaw("EXEC dbo.sp_segment @Idmaster={0}", idmaster).ToList();
+                return Ok(Results);
+            }
+            catch (Exception)
+            {
 
-            return Ok(Results);
+                return NotFound();
+            }
+            
 
         }
         [HttpGet]
