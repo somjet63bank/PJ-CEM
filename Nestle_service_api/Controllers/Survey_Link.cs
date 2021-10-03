@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Nestle_service_api.Context;
 using Nestle_service_api.Model;
 using Nestle_service_api.ViewModel;
@@ -18,11 +19,16 @@ namespace Nestle_service_api.Controllers
     [Route("api/[controller]/[action]")]
     public class Survey_Link : Controller
     {
-        private readonly Nestle_Connect _Nestle_Connect;
 
-        public Survey_Link(Nestle_Connect Nestle_Connect)
+
+        private readonly Nestle_Connect _Nestle_Connect;
+        private readonly SPContext context;
+        //private readonly Fcc_Connect _fcc_Connect;
+        public Survey_Link(Nestle_Connect Nestle_Connect, SPContext _context)
         {
             _Nestle_Connect = Nestle_Connect;
+            // _fcc_Connect = fcc_Connect;
+            context = _context;
         }
 
         [HttpPost]
@@ -38,27 +44,27 @@ namespace Nestle_service_api.Controllers
                 tb_master_link mo = new tb_master_link();
                 Random _random = new Random();
                 DateTime datenew = DateTime.Now;
-                
-                    int rundoms = _random.Next(1000, 9999);
-                    int rundomsnew = _random.Next(1000, 9999);
-                    string msgs = "";
-                    mo.id = 0;
-                    mo.random_numbe = "CES" + Convert.ToString(rundoms) + "_" + rundomsnew;
-                    mo.customer = m.customer;
-                    mo.sender = m.sender;
-                    mo.create_send = m.create_send;
-                    mo.create_link_date = datenew;
-                    mo.Url = "https://dev.fcc.co.th:2022/#/RegisterCode/" + mo.random_numbe + "/" + replacement;
-                    mo.status = "Send";
-                    msgs = "ยินดีด้วยค่ะ คุณได้รับโค้ดส่วนลดมูลค่า 25 บาท คือ NESTV1C25 สำหรับการซื้อขั้นต่ำ 99 บาทขึ้นไป คุณสามารถนำโค้ดส่วนลดนี้ไปใช้กับสินค้าใดก็ได้ที่ Nestlé official store ผ่านทาง";
-                    msgs += "Shopee เท่านั้นค่ะ นอกจากนี้คุณได้รับสิทธิ์ในการลงทะเบียนเข้าร่วมกิจกรรม Nestlé Big Fan & Brand influencer สามารถลงทะเบียนได้ที่ ";
-                    msgs += "'" + mo.Url + "'";
-                    msgs += " แล้วมาเป็นครอบครัว Nestlé ด้วยกันนะคะ!";
-                    _Nestle_Connect.tb_master_link.Add(mo);
-                    _Nestle_Connect.SaveChanges();
 
-                    var datas = _Nestle_Connect.tb_master_link.Where(x => x.customer == mo.customer).ToList();
-                    return Ok(datas);               
+                int rundoms = _random.Next(1000, 9999);
+                int rundomsnew = _random.Next(1000, 9999);
+                string msgs = "";
+                mo.id = 0;
+                mo.random_numbe = "CES" + Convert.ToString(rundoms) + "_" + rundomsnew;
+                mo.customer = m.customer;
+                mo.sender = m.sender;
+                mo.create_send = m.create_send;
+                mo.create_link_date = datenew;
+                mo.Url = "https://www.nestlecem.com/#/RegisterCode/" + mo.random_numbe + "/" + replacement;
+                mo.status = "Send";
+                msgs = "ยินดีด้วยค่ะ คุณได้รับโค้ดส่วนลดมูลค่า 25 บาท คือ NESTV1C25 สำหรับการซื้อขั้นต่ำ 99 บาทขึ้นไป คุณสามารถนำโค้ดส่วนลดนี้ไปใช้กับสินค้าใดก็ได้ที่ Nestlé official store ผ่านทาง";
+                msgs += "Shopee เท่านั้นค่ะ นอกจากนี้คุณได้รับสิทธิ์ในการลงทะเบียนเข้าร่วมกิจกรรม Nestlé Big Fan & Brand influencer สามารถลงทะเบียนได้ที่ ";
+                msgs += "'" + mo.Url + "'";
+                msgs += " แล้วมาเป็นครอบครัว Nestlé ด้วยกันนะคะ!";
+                _Nestle_Connect.tb_master_link.Add(mo);
+                _Nestle_Connect.SaveChanges();
+
+                var datas = _Nestle_Connect.tb_master_link.Where(x => x.customer == mo.customer).ToList();
+                return Ok(datas);
 
             }
             else
@@ -72,7 +78,7 @@ namespace Nestle_service_api.Controllers
             try
             {
                 var data = _Nestle_Connect.tb_master_link.Where(x => x.customer == phone).ToList();
-                if (data.Count !=0)
+                if (data.Count != 0)
                 {
                     tb_master_link m = new tb_master_link();
                     _Nestle_Connect.tb_master_link.Where(x => x.customer == phone).SingleOrDefault();
@@ -84,7 +90,7 @@ namespace Nestle_service_api.Controllers
                 {
                     return Ok();
                 }
-               
+
             }
             catch { return NotFound(); }
 
@@ -94,7 +100,7 @@ namespace Nestle_service_api.Controllers
         {
             try
             {
-                tb_master_link u = _Nestle_Connect.tb_master_link.SingleOrDefault(x => x.id == s.id);                
+                tb_master_link u = _Nestle_Connect.tb_master_link.SingleOrDefault(x => x.id == s.id);
                 if (s.casea == "Update_status_Resend")
                 {
                     u.status = "Resend";
@@ -139,10 +145,10 @@ namespace Nestle_service_api.Controllers
             rh.OTP = Convert.ToString(rundoms);
             rh.isstatus = "wait_confirmed";
             rh.datesave = datenew;
-            rh.RefID = rundoms_ref1 + "C" + rundoms_ref2 +"S";
+            rh.RefID = rundoms_ref1 + "C" + rundoms_ref2 + "S";
             //try
             //{
-            string otp_ref = rh.OTP + ' ' + "<Ref. " + rh.RefID +">";
+            string otp_ref = rh.OTP + ' ' + "<Ref. " + rh.RefID + ">";
             string[] array = new string[] { rh.OTP, rh.RefID };
             try
             {
@@ -184,7 +190,7 @@ namespace Nestle_service_api.Controllers
             }
             catch { return NotFound(); }
         }
-            
+
         private bool update_satatus_master(string id_master, string Status)
         {
             tb_master_link m = _Nestle_Connect.tb_master_link.Where(x => x.random_numbe == id_master).SingleOrDefault();
@@ -226,7 +232,23 @@ namespace Nestle_service_api.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<IActionResult> Getsegment(string idmaster)
+        {
+            try
+            {
+                var Results = context.Set<tb_segment>().FromSqlRaw("EXEC dbo.sp_segment @Idmaster={0}", idmaster).ToList();
 
+                return Ok(Results);
+            }
+            catch (Exception)
+            {
+
+                return NotFound();
+            }
+            
+
+        }
         [HttpGet]
         public ActionResult CheckOTP(string OTP, string id)
         {
@@ -260,7 +282,7 @@ namespace Nestle_service_api.Controllers
                 }
             }
             else { return NotFound(); }
-           
+
         }
         [HttpGet]
         public ActionResult<string> Check_TypeSend(string id_master)
@@ -268,7 +290,7 @@ namespace Nestle_service_api.Controllers
             try
             {
                 var data = _Nestle_Connect.tb_master_link.Where(x => x.random_numbe == id_master).ToList();
-                if (data.Count !=0)
+                if (data.Count != 0)
                 {
                     return Ok(data);
                 }
@@ -303,7 +325,7 @@ namespace Nestle_service_api.Controllers
 
                 return NotFound();
             }
-           
+
         }
         [HttpGet]
         public ActionResult<string> checkRegister(string numberid)
@@ -317,7 +339,7 @@ namespace Nestle_service_api.Controllers
             {
                 return Ok("No");
             }
-            
+
         }
         [HttpGet]
         public ActionResult<tb_province> Get_province()
@@ -332,14 +354,14 @@ namespace Nestle_service_api.Controllers
 
                 return NotFound();
             }
-           
+
         }
         [HttpGet]
         public ActionResult<tb_district> Get_district(string province_name)
         {
             try
             {
-                var data = _Nestle_Connect.tb_district.Where(x => x.pvnc_name == province_name).OrderBy(x =>x.district_name).ToList();
+                var data = _Nestle_Connect.tb_district.Where(x => x.pvnc_name == province_name).OrderBy(x => x.district_name).ToList();
                 return Ok(data);
             }
             catch (Exception)
@@ -368,8 +390,8 @@ namespace Nestle_service_api.Controllers
         public ActionResult<tb_zip_code> Get_zip_code(string sub_district_name)
         {
 
-                var data = _Nestle_Connect.tb_zip_code.Where(x => x.sub_district_name == sub_district_name).OrderBy(x => x.zip_code).ToList();
-                return Ok(data);
+            var data = _Nestle_Connect.tb_zip_code.Where(x => x.sub_district_name == sub_district_name).OrderBy(x => x.zip_code).ToList();
+            return Ok(data);
 
         }
         [HttpPost]
@@ -378,14 +400,30 @@ namespace Nestle_service_api.Controllers
             var data = _Nestle_Connect.tb_user_login.Where(x => x.user_ == u.user_ && x.password_ == u.password_).ToList();
             if (data.Count != 0)
             {
-                return Ok("success");
+                return Ok(data.ToList());
             }
             else
             {
                 return Ok("Not");
             }
         }
-        
-      
+
+        //private void savelog(tbMessageLog data)
+        //{
+        //    try
+        //    {
+        //        _fcc_Connect.tbMessageLog.Add(data);
+        //        _fcc_Connect.SaveChanges();
+        //    }
+        //    catch { }
+        //}
+        static string ConvertStringToHex(string message)
+        {
+            byte[] bytes = Encoding.BigEndianUnicode.GetBytes(message);
+            string hex = BitConverter.ToString(bytes);
+            hex = hex.Replace("-", "");
+            return hex;
+        }
+
     }
 }
