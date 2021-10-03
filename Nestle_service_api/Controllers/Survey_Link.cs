@@ -54,7 +54,7 @@ namespace Nestle_service_api.Controllers
                 mo.sender = m.sender;
                 mo.create_send = m.create_send;
                 mo.create_link_date = datenew;
-                mo.Url = "https://dev.fcc.co.th:2022/#/RegisterCode/" + mo.random_numbe + "/" + replacement;
+                mo.Url = "https://www.nestlecem.com/#/RegisterCode/" + mo.random_numbe + "/" + replacement;
                 mo.status = "Send";
                 msgs = "ยินดีด้วยค่ะ คุณได้รับโค้ดส่วนลดมูลค่า 25 บาท คือ NESTV1C25 สำหรับการซื้อขั้นต่ำ 99 บาทขึ้นไป คุณสามารถนำโค้ดส่วนลดนี้ไปใช้กับสินค้าใดก็ได้ที่ Nestlé official store ผ่านทาง";
                 msgs += "Shopee เท่านั้นค่ะ นอกจากนี้คุณได้รับสิทธิ์ในการลงทะเบียนเข้าร่วมกิจกรรม Nestlé Big Fan & Brand influencer สามารถลงทะเบียนได้ที่ ";
