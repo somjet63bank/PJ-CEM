@@ -15,7 +15,7 @@ namespace Nestle_service_api.Model
         public string owner_mobile_number { get; set; }
         public string regietered_yet { get; set; }
         public string interested_brand_ambassador { get; set; }
-        public string reasons_register { get; set; }
+        public string reasons_register { get; set; }    
         public string tellscore_registration_status { get; set; }
         public string case_id { get; set; }
     }

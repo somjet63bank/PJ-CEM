@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Nestle_service_api.BL.Outbound
 {
-    public class FirstOrSecondCallDetail : BaseBLL, IFirstOrSecondCallDetail 
+    public class FirstOrSecondCallDetail : BaseBLL, IFirstOrSecondCallDetail
     {
         private readonly IEfRepository<tb_outbound_first_call> fristcallRepository;
         private readonly IEfRepository<tb_outbound_second_call> secondcallRepository;
@@ -20,7 +20,7 @@ namespace Nestle_service_api.BL.Outbound
         private readonly SPContext context;
         public FirstOrSecondCallDetail(IEfRepository<tb_outbound_first_call> _fristcallRepository,
                          IEfRepository<tb_outbound_second_call> _secondcallRepository,
-                         IEfRepository<tb_logs_outbound> _outboundlogsRepository, 
+                         IEfRepository<tb_logs_outbound> _outboundlogsRepository,
                          Nestle_Connect _nestle_Connect,
                          SPContext _context)
         {
@@ -43,6 +43,7 @@ namespace Nestle_service_api.BL.Outbound
                 fristcall.consurmer_name = fristCallModel.consurmer_name;
                 fristcall.consurmer_surmer = fristCallModel.consurmer_surmer;
                 fristcall.owner_mobile_number = fristCallModel.owner_mobile_number;
+                fristcall.callback_customer_date = fristCallModel.callback_customer_date;
                 fristcall.use_discount_code = fristCallModel.use_discount_code;
                 fristcall.discount_code_for = fristCallModel.discount_code_for;
                 fristcall.discount_code_exp_date = fristCallModel.discount_code_exp_date;
@@ -63,6 +64,7 @@ namespace Nestle_service_api.BL.Outbound
                     consurmer_name = fristCallModel.consurmer_name,
                     consurmer_surmer = fristCallModel.consurmer_surmer,
                     owner_mobile_number = fristCallModel.owner_mobile_number,
+                    callback_customer_date = fristCallModel.callback_customer_date,
                     use_discount_code = fristCallModel.use_discount_code,
                     discount_code_for = fristCallModel.discount_code_for,
                     discount_code_exp_date = fristCallModel.discount_code_exp_date,
@@ -87,8 +89,8 @@ namespace Nestle_service_api.BL.Outbound
             var secondcall = secondcallRepository.Table.Where(x => x.IsActive && x.Id == secondCallModel.Id).FirstOrDefault();
             if (secondcall != null)
             {
-                secondcall.ob_date = DateTime.Now;
-                secondcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
+                secondcall.ob_date = secondCallModel.ob_date;
+                secondcall.ob_time = secondCallModel.ob_time;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
                 secondcall.consurmer_surmer = secondCallModel.consurmer_surmer;
@@ -105,8 +107,8 @@ namespace Nestle_service_api.BL.Outbound
             {
                 var _secondcall = new tb_outbound_second_call
                 {
-                    ob_date = secondCallModel.ob_date,
-                    ob_time = secondCallModel.ob_time,
+                    ob_date = DateTime.Now,
+                    ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
                     contact_status = secondCallModel.contact_status,
                     consurmer_name = secondCallModel.consurmer_name,
                     consurmer_surmer = secondCallModel.consurmer_surmer,
@@ -291,6 +293,20 @@ namespace Nestle_service_api.BL.Outbound
                 var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetAllOutboundSecondCall @KeywordSearch={0}, @PageNumber={1}", KeywordSearch, PageNumber).ToList();
 
                 return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; ;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<OutboundCallViewModel> GetOutboundByIdmaster(string Idmaster)
+        {
+            try
+            {
+                var Result = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.GetOutboundByIdmaster @id_master={0}", Idmaster).ToList();
+
+                return Result.FirstOrDefault();
             }
             catch (Exception ex)
             {

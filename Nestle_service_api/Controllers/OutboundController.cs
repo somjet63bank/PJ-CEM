@@ -53,6 +53,21 @@ namespace Nestle_service_api.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetOutboundByIdmaster(string Idmaster)
+        {
+            try
+            {
+                return Ok(await fristCallDetail.GetOutboundByIdmaster(Idmaster));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddOrUpdateFristCall(FirstCallModel fristCall)
         {
