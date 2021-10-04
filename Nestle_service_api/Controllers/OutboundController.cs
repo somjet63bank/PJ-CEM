@@ -190,7 +190,6 @@ namespace Nestle_service_api.Controllers
                 logger.LogError(ex.GetFullErrorText().Message);
                 return BadRequest(ex.GetFullErrorText().Message);
             }
-        }
-
+        }        
     }
 }
