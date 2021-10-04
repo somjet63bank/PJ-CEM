@@ -26,6 +26,5 @@ namespace Nestle_service_api.ViewModel
         public string district_name { get; set; }
         public string province_name { get; set; }
         public string zip_code { get; set; }
-        public string UserName { get; set; }
     }
 }
