@@ -35,6 +35,7 @@ namespace Nestle_service_api.BL.Outbound
         {
 
             var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.Id == fristCallModel.Id).FirstOrDefault();
+            DateTime? nullDateTime = null;
             if (fristcall != null)
             {
                 fristcall.ob_date = fristCallModel.ob_date;
@@ -43,7 +44,7 @@ namespace Nestle_service_api.BL.Outbound
                 fristcall.consurmer_name = fristCallModel.consurmer_name;
                 fristcall.consurmer_surmer = fristCallModel.consurmer_surmer;
                 fristcall.owner_mobile_number = fristCallModel.owner_mobile_number;
-                fristcall.callback_customer_date = fristCallModel.callback_customer_date.Value;
+                fristcall.callback_customer_date = fristCallModel.callback_customer_date == null ? nullDateTime : fristCallModel.callback_customer_date.Value;
                 fristcall.use_discount_code = fristCallModel.use_discount_code;
                 fristcall.discount_code_for = fristCallModel.discount_code_for;
                 fristcall.discount_code_exp_date = fristCallModel.discount_code_exp_date;
@@ -64,7 +65,7 @@ namespace Nestle_service_api.BL.Outbound
                     consurmer_name = fristCallModel.consurmer_name,
                     consurmer_surmer = fristCallModel.consurmer_surmer,
                     owner_mobile_number = fristCallModel.owner_mobile_number,
-                    callback_customer_date = fristCallModel.callback_customer_date.Value,
+                    callback_customer_date = fristCallModel.callback_customer_date == null ? nullDateTime : fristCallModel.callback_customer_date.Value,
                     use_discount_code = fristCallModel.use_discount_code,
                     discount_code_for = fristCallModel.discount_code_for,
                     discount_code_exp_date = fristCallModel.discount_code_exp_date,
