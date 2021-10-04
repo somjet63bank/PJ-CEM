@@ -51,7 +51,7 @@ namespace Nestle_service_api.BL.Outbound
                 fristcall.interested_brand_ambassador = fristCallModel.interested_brand_ambassador;
                 fristcall.tellscore_registration_status = fristCallModel.tellscore_registration_status;
                 fristcall.case_id = fristCallModel.case_id;
-                fristcall.UpdatedBy = UserName;
+                fristcall.UpdatedBy = fristCallModel.UserName;
                 fristcall.UpdatedDate = DateTime.Now;
                 await fristcallRepository.UpdateAsync(fristcall);
             }
@@ -72,7 +72,7 @@ namespace Nestle_service_api.BL.Outbound
                     interested_brand_ambassador = fristCallModel.interested_brand_ambassador,
                     tellscore_registration_status = fristCallModel.tellscore_registration_status,
                     case_id = fristCallModel.case_id,
-                    UpdatedBy = UserName,
+                    UpdatedBy = fristCallModel.UserName,
                     UpdatedDate = DateTime.Now,
                     CreatedBy = UserName,
                     CreatedDate = DateTime.Now
@@ -88,6 +88,7 @@ namespace Nestle_service_api.BL.Outbound
         {
 
             var secondcall = secondcallRepository.Table.Where(x => x.IsActive && x.Id == secondCallModel.Id).FirstOrDefault();
+            DateTime? nullDateTime = null;
             if (secondcall != null)
             {
                 secondcall.ob_date = secondCallModel.ob_date;
@@ -96,11 +97,12 @@ namespace Nestle_service_api.BL.Outbound
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
                 secondcall.consurmer_surmer = secondCallModel.consurmer_surmer;
                 secondcall.owner_mobile_number = secondCallModel.owner_mobile_number;
+                secondcall.callback_customer_date = secondCallModel.callback_customer_date == null ? nullDateTime : secondCallModel.callback_customer_date.Value;
                 secondcall.regietered_yet = secondCallModel.regietered_yet;
                 secondcall.interested_brand_ambassador = secondCallModel.interested_brand_ambassador;
                 secondcall.tellscore_registration_status = secondCallModel.tellscore_registration_status;
                 secondcall.reasons_register = secondCallModel.reasons_register;
-                secondcall.UpdatedBy = UserName;
+                secondcall.UpdatedBy = secondCallModel.UserName;
                 secondcall.UpdatedDate = DateTime.Now;
                 await secondcallRepository.UpdateAsync(secondcall);
             }
@@ -114,13 +116,14 @@ namespace Nestle_service_api.BL.Outbound
                     consurmer_name = secondCallModel.consurmer_name,
                     consurmer_surmer = secondCallModel.consurmer_surmer,
                     owner_mobile_number = secondCallModel.owner_mobile_number,
+                    callback_customer_date = secondCallModel.callback_customer_date == null ? nullDateTime : secondCallModel.callback_customer_date.Value,
                     regietered_yet = secondCallModel.regietered_yet,
                     interested_brand_ambassador = secondCallModel.interested_brand_ambassador,
                     tellscore_registration_status = secondCallModel.tellscore_registration_status,
                     reasons_register = secondCallModel.reasons_register,
-                    UpdatedBy = UserName,
+                    UpdatedBy = secondCallModel.UserName,
                     UpdatedDate = DateTime.Now,
-                    CreatedBy = UserName,
+                    CreatedBy = secondCallModel.UserName,
                     CreatedDate = DateTime.Now
                 };
 

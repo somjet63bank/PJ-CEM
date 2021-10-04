@@ -14,9 +14,12 @@ namespace Nestle_service_api.ViewModel
         public string consurmer_name { get; set; }
         public string consurmer_surmer { get; set; }
         public string owner_mobile_number { get; set; }
+        public DateTime? callback_customer_date { get; set; }
         public string regietered_yet { get; set; }
         public string interested_brand_ambassador { get; set; }
         public string reasons_register { get; set; }
         public string tellscore_registration_status { get; set; }
+
+        public string UserName { get; set; }
     }
 }

@@ -21,5 +21,7 @@ namespace Nestle_service_api.ViewModel
         public string interested_brand_ambassador { get; set; }
         public string tellscore_registration_status { get; set; }
         public string case_id { get; set; }
+        public string UserName { get; set; }
+
     }
 }

@@ -21,5 +21,7 @@ namespace Nestle_service_api.ViewModel
         public string solution { get; set; }
         public string sratus_case { get; set; }
         public int number_of_calls { get; set; }
+        public string UserName { get; set; }
+
     }
 }
