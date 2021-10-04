@@ -29,5 +29,7 @@ namespace Nestle_service_api.Model
         public string brand_segment { get; set; }
         public string bigfan_sms_1 { get; set; }
         public string bigfan_sms_2 { get; set; }
+        public string influencer_to_bigfan_sms_1 { get; set; }
+        public string influencer_to_bigfan_sms_2 { get; set; }
     }
 }
