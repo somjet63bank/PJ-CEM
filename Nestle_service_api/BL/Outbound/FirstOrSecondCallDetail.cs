@@ -102,6 +102,7 @@ namespace Nestle_service_api.BL.Outbound
                 secondcall.interested_brand_ambassador = secondCallModel.interested_brand_ambassador;
                 secondcall.tellscore_registration_status = secondCallModel.tellscore_registration_status;
                 secondcall.reasons_register = secondCallModel.reasons_register;
+                secondcall.case_id = secondCallModel.case_id;
                 secondcall.UpdatedBy = secondCallModel.UserName;
                 secondcall.UpdatedDate = DateTime.Now;
                 await secondcallRepository.UpdateAsync(secondcall);
@@ -121,6 +122,7 @@ namespace Nestle_service_api.BL.Outbound
                     interested_brand_ambassador = secondCallModel.interested_brand_ambassador,
                     tellscore_registration_status = secondCallModel.tellscore_registration_status,
                     reasons_register = secondCallModel.reasons_register,
+                    case_id = secondCallModel.case_id,
                     UpdatedBy = secondCallModel.UserName,
                     UpdatedDate = DateTime.Now,
                     CreatedBy = secondCallModel.UserName,
