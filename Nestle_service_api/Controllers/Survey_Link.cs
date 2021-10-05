@@ -423,7 +423,6 @@ namespace Nestle_service_api.Controllers
             string hex = BitConverter.ToString(bytes);
             hex = hex.Replace("-", "");
             return hex;
-        }
-
+        }        
     }
 }
