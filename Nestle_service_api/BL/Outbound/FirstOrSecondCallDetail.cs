@@ -57,8 +57,8 @@ namespace Nestle_service_api.BL.Outbound
             DateTime? nullDateTime = null;
             if (fristcall != null)
             {
-                fristcall.ob_date = fristCallModel.ob_date;
-                fristcall.ob_time = fristCallModel.ob_time;
+                fristcall.ob_date = DateTime.Now;
+                fristcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
                 fristcall.case_status = fristCallModel.status_of_case;
                 fristcall.contact_status = fristCallModel.contact_status;
                 fristcall.consurmer_name = fristCallModel.consurmer_name;
@@ -166,8 +166,8 @@ namespace Nestle_service_api.BL.Outbound
 
             if (secondcall != null)
             {
-                secondcall.ob_date = secondCallModel.ob_date;
-                secondcall.ob_time = secondCallModel.ob_time;
+                secondcall.ob_date = DateTime.Now;
+                secondcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
                 secondcall.case_status = secondCallModel.status_of_case;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
