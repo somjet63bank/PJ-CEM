@@ -81,6 +81,18 @@ namespace Nestle_service_api.BL.Outbound
                 await fristcallRepository.AddAsync(_fristcall);
             }
 
+            var inbound = new tb_logs_outbound
+            {
+                case_id = fristCallModel.case_id,
+                aqent_name = fristCallModel.UserName,
+                create_date = DateTime.Now,
+                status_of_case = fristCallModel.status_of_case,
+                status_of_contact = fristCallModel.contact_status,
+                CreatedBy = UserName,
+                CreatedDate = DateTime.Now
+            };
+
+
             return true;
         }
 
@@ -131,6 +143,19 @@ namespace Nestle_service_api.BL.Outbound
 
                 await secondcallRepository.AddAsync(_secondcall);
             }
+
+            var inbound = new tb_logs_outbound
+            {
+                case_id = secondCallModel.case_id,
+                aqent_name = secondCallModel.UserName,
+                create_date = DateTime.Now,
+                status_of_case = secondCallModel.status_of_case,
+                status_of_contact = secondCallModel.contact_status,
+                CreatedBy = UserName,
+                CreatedDate = DateTime.Now
+            };
+
+            await AddLog(inbound);
 
             return true;
         }
