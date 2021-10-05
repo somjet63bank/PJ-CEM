@@ -84,5 +84,31 @@ namespace Nestle_service_api.Controllers
                 return NotFound();
             }
         }
+        [HttpGet]
+        public ActionResult<tb_Service_Group> Service_Group()
+        {
+            var data = _Nestle_Connect.tb_Service_Group.ToList();
+            if (data.Count != 0)
+            {
+                return Ok(data);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpGet]
+        public ActionResult<tb_Service_Type> Service_Type(int id)
+        {
+            var data = _Nestle_Connect.tb_Service_Type.Where(x => x.id_service_group == id).ToList();
+            if (data.Count != 0)
+            {
+                return Ok(data);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
