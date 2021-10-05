@@ -65,6 +65,8 @@ namespace Nestle_service_api.BL.Inbound
                     CaseId = "001";
                 }
 
+                inboundCase.case_id = CaseId;
+
                 var inbound = new tb_inbound_case
                 {
                     inbound_call_date = DateTime.Now,
