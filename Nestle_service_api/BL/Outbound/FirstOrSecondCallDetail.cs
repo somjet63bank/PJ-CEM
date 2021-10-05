@@ -168,7 +168,7 @@ namespace Nestle_service_api.BL.Outbound
             {
                 secondcall.ob_date = secondCallModel.ob_date;
                 secondcall.ob_time = secondCallModel.ob_time;
-                secondcall.case_status = secondCallModel.case_status;
+                secondcall.case_status = secondCallModel.status_of_case;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
                 secondcall.consurmer_surmer = secondCallModel.consurmer_surmer;
@@ -208,7 +208,7 @@ namespace Nestle_service_api.BL.Outbound
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
                     contact_status = secondCallModel.contact_status,
-                    case_status = secondCallModel.case_status,
+                    case_status = secondCallModel.status_of_case,
                     consurmer_name = secondCallModel.consurmer_name,
                     consurmer_surmer = secondCallModel.consurmer_surmer,
                     owner_mobile_number = secondCallModel.owner_mobile_number,
