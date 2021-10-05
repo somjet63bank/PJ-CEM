@@ -54,6 +54,20 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetOutboundCallAll(int PageNumber)
+        {
+            try
+            {
+                return Ok(await fristCallDetail.GetAllOutboundCallAsync( PageNumber));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetOutboundByIdmaster(string Idmaster)
         {
             try
