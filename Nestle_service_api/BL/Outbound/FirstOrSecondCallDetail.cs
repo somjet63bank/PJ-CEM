@@ -59,6 +59,7 @@ namespace Nestle_service_api.BL.Outbound
             {
                 fristcall.ob_date = fristCallModel.ob_date;
                 fristcall.ob_time = fristCallModel.ob_time;
+                fristcall.case_status = fristCallModel.status_of_case;
                 fristcall.contact_status = fristCallModel.contact_status;
                 fristcall.consurmer_name = fristCallModel.consurmer_name;
                 fristcall.consurmer_surmer = fristCallModel.consurmer_surmer;
@@ -100,6 +101,7 @@ namespace Nestle_service_api.BL.Outbound
                 {
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
+                    case_status = fristCallModel.status_of_case,
                     contact_status = fristCallModel.contact_status,
                     consurmer_name = fristCallModel.consurmer_name,
                     consurmer_surmer = fristCallModel.consurmer_surmer,
@@ -114,7 +116,7 @@ namespace Nestle_service_api.BL.Outbound
                     case_id = fristCallModel.case_id,
                     UpdatedBy = fristCallModel.UserName,
                     UpdatedDate = DateTime.Now,
-                    CreatedBy = UserName,
+                    CreatedBy = fristCallModel.UserName,
                     CreatedDate = DateTime.Now
                 };
 
