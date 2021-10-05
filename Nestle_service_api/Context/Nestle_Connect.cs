@@ -33,6 +33,8 @@ namespace Nestle_service_api.Context
         public DbSet<tb_outbound_first_call> tb_outbound_first_call { get; set; }
         public DbSet<tb_outbound_second_call> tb_outbound_second_call { get; set; }
         public DbSet<tb_outbound_telesale> tb_outbound_telesale { get; set; }
+        public DbSet<tb_Service_Type> tb_Service_Type { get; set; }
+        public DbSet<tb_Service_Group> tb_Service_Group { get; set; }
     }
 
 }
