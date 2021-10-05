@@ -8,7 +8,7 @@ namespace Nestle_service_api.ViewModel
     public class InboundCaseModel
     {
         public Int32 Id { get; set; }
-        public DateTime inbound_call_date { get; set; }
+        public DateTime? inbound_call_date { get; set; }
         public string case_open_time { get; set; }
         public string case_id { get; set; }
         public string contact_channel { get; set; }
@@ -19,7 +19,8 @@ namespace Nestle_service_api.ViewModel
         public string service_type { get; set; }
         public string service_requst_verbatim { get; set; }
         public string solution { get; set; }
-        public string sratus_case { get; set; }
+        public string status_case { get; set; }
+        public string contact_status { get; set; }
         public int number_of_calls { get; set; }
         public string UserName { get; set; }
 

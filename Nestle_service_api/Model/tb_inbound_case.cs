@@ -19,6 +19,6 @@ namespace Nestle_service_api.Model
         public string service_requst_verbatim { get; set; }
         public string solution { get; set; }
         public int number_of_calls { get; set; }
-        public string sratus_case { get; set; }
+        public string status_case { get; set; }
     }
 }

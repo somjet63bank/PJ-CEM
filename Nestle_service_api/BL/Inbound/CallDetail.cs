@@ -30,8 +30,8 @@ namespace Nestle_service_api.BL.Inbound
 
             if (inboundCasep != null)
             {
-                inboundCasep.inbound_call_date = inboundCase.inbound_call_date;
-                inboundCasep.case_open_time = inboundCase.case_open_time;
+                inboundCasep.inbound_call_date = DateTime.Now;
+                inboundCasep.case_open_time = DateTime.Now.ToString("HH:mm:ss tt");
                 inboundCasep.case_id = inboundCase.case_id;
                 inboundCasep.contact_channel = inboundCase.contact_channel;
                 inboundCasep.name = inboundCase.name;
@@ -41,8 +41,8 @@ namespace Nestle_service_api.BL.Inbound
                 inboundCasep.service_type = inboundCase.service_type;
                 inboundCasep.service_requst_verbatim = inboundCase.service_requst_verbatim;
                 inboundCasep.solution = inboundCase.solution;
-                inboundCasep.sratus_case = inboundCase.sratus_case;
-                inboundCasep.UpdatedBy = UserName;
+                inboundCasep.status_case = inboundCase.status_case;
+                inboundCasep.UpdatedBy = inboundCase.UserName;
                 inboundCasep.UpdatedDate = DateTime.Now;
                 await inboundCaseRepository.UpdateAsync(inboundCasep);
             }
@@ -78,14 +78,28 @@ namespace Nestle_service_api.BL.Inbound
                     service_type = inboundCase.service_type,
                     service_requst_verbatim = inboundCase.service_requst_verbatim,
                     solution = inboundCase.solution,
-                    sratus_case = inboundCase.sratus_case,
-                    CreatedBy = UserName,
+                    status_case = inboundCase.status_case,
+                    CreatedBy = inboundCase.UserName,
                     CreatedDate = DateTime.Now
                 };
                 await inboundCaseRepository.AddAsync(inbound);
             }
 
 
+            var inboundlog = new tb_logs_inbound
+            {
+                case_id = inboundCase.case_id,
+                aqent_name = inboundCase.UserName,
+                create_date = DateTime.Now,
+                status_of_case = inboundCase.status_case,
+                status_of_contact = inboundCase.contact_status,
+                CreatedBy = inboundCase.UserName,
+                CreatedDate = DateTime.Now,
+                UpdatedBy = inboundCase.UserName,
+                UpdatedDate = DateTime.Now,
+            };
+
+            await AddLog(inboundlog);
             return true;
         }
         private string GenerateCaseId(int lastAddedId)
@@ -121,7 +135,7 @@ namespace Nestle_service_api.BL.Inbound
                                               service_type = s.service_type,
                                               service_requst_verbatim = s.service_requst_verbatim,
                                               solution = s.solution,
-                                              sratus_case = s.sratus_case
+                                              status_case = s.status_case
                                           }).FirstOrDefaultAsync();
             if (inboundCase == null)
                 throw new Exception("Not found inbound Case");
@@ -130,7 +144,7 @@ namespace Nestle_service_api.BL.Inbound
         }
         public async Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip, int take)
         {
-            var query = inboundCaseRepository.Table.Where(x => x.IsActive && x.sratus_case != "Close");
+            var query = inboundCaseRepository.Table.Where(x => x.IsActive && x.status_case != "Close");
 
             if (!string.IsNullOrEmpty(key))
                 query = query.Where(x => x.name.Contains(key) || x.contact_number.Contains(key));
@@ -151,7 +165,7 @@ namespace Nestle_service_api.BL.Inbound
                                     service_type = s.service_type,
                                     service_requst_verbatim = s.service_requst_verbatim,
                                     solution = s.solution,
-                                    sratus_case = s.sratus_case,
+                                    status_case = s.status_case,
                                     number_of_calls = s.number_of_calls
                                 });
 
