@@ -10,6 +10,7 @@ namespace Nestle_service_api.Model
         [key]
         public int id { get; set; }
         public int id_service_group { get; set; }
+        public string service_group { get; set; }
         public string Service_Type { get; set; }
     }
 }
