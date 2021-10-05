@@ -98,9 +98,9 @@ namespace Nestle_service_api.Controllers
             }
         }
         [HttpGet]
-        public ActionResult<tb_Service_Type> Service_Type(int id)
+        public ActionResult<tb_Service_Type> Service_Type(string servicegroup)
         {
-            var data = _Nestle_Connect.tb_Service_Type.Where(x => x.id_service_group == id).ToList();
+            var data = _Nestle_Connect.tb_Service_Type.Where(x => x.service_group == servicegroup).ToList();
             if (data.Count != 0)
             {
                 return Ok(data);
