@@ -460,9 +460,18 @@ namespace Nestle_service_api.BL.Outbound
             {
                 int total = 0;
                 var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetOutboundCallAll @PageNumber={0}", PageNumber).ToList();
-                Results = Results.Where(x => x.second_contact_status != "Completed Information").ToList();
 
-                return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; 
+                List<OutboundCallViewModel> list = new List<OutboundCallViewModel>();
+                foreach (var item in Results)
+                {
+                    if (item.first_contact_status != "Wrong number")
+                    {
+                        if (item.second_contact_status != "Completed Information")
+                            list.Add(item);
+                    }
+                }
+
+                return new ResponseViewModel<OutboundCallViewModel> { data = list, totalCount = total };
             }
             catch (Exception ex)
             {
