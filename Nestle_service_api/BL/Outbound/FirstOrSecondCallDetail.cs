@@ -331,6 +331,21 @@ namespace Nestle_service_api.BL.Outbound
             }
         }
 
+        public async Task<ResponseViewModel<OutboundCallViewModel>> GetAllOutboundCallAsync(int PageNumber)
+        {
+            try
+            {
+                int total = 0;
+                var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetOutboundCallAll @PageNumber={0}", PageNumber).ToList();
+
+                return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; ;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public async Task<OutboundCallViewModel> GetOutboundByIdmaster(string Idmaster)
         {
             try
