@@ -12,7 +12,8 @@ namespace Nestle_service_api.BL.Outbound
     {
         Task<bool> AddOrUpdate(FirstCallModel fristCall);
         Task<bool> AddOrUpdate(SecondCallModel secondCall);
-        Task<bool> AddLog(tb_logs_outbound logsOutbound);
+        Task<bool> AddLogFirst(tb_logs_outbound logsOutbound);
+        Task<bool> AddLogSecond(tb_logs_outbound logsOutbound);
         Task<bool> Delete(int id);
         Task<FirstCallModel> GetFirstCall(int id);
         Task<SecondCallModel> GetSecondCall(int id);

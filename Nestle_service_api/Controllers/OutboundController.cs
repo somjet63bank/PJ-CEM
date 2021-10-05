@@ -101,7 +101,7 @@ namespace Nestle_service_api.Controllers
         {
             try
             {
-                return Ok(await fristCallDetail.AddLog(logsOutbound));
+                return Ok(await fristCallDetail.AddLogFirst(logsOutbound));
             }
             catch (Exception ex)
             {

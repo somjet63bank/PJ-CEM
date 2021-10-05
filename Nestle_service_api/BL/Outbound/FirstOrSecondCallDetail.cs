@@ -35,6 +35,25 @@ namespace Nestle_service_api.BL.Outbound
         {
 
             var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.case_id == fristCallModel.case_id).FirstOrDefault();
+
+            if (fristCallModel.contact_status == "Available")
+            {
+                fristCallModel.status_of_case = "Reachable";
+                fristCallModel.contact_status = "Completed Information";
+            }
+            if (fristCallModel.contact_status == "Not Available" ||
+                fristCallModel.contact_status == "Busy" ||
+                fristCallModel.contact_status == "Missed call" ||
+                fristCallModel.contact_status == "On behalf of owner" ||
+                fristCallModel.contact_status == "Busy")
+            {
+                fristCallModel.status_of_case = "Unreachable";
+            }
+            if (fristCallModel.contact_status == "Wrong number")
+            {
+                fristCallModel.status_of_case = "Not Called";
+            }
+
             DateTime? nullDateTime = null;
             if (fristcall != null)
             {
@@ -50,7 +69,7 @@ namespace Nestle_service_api.BL.Outbound
                 fristcall.discount_code_exp_date = fristCallModel.discount_code_exp_date;
                 fristcall.interested_brand_ambassador = fristCallModel.interested_brand_ambassador;
                 fristcall.tellscore_registration_status = fristCallModel.tellscore_registration_status;
-                fristcall.convenient_to_chat = fristCallModel.convenient_to_chat; 
+                fristcall.convenient_to_chat = fristCallModel.convenient_to_chat;
                 fristcall.case_id = fristCallModel.case_id;
                 fristcall.UpdatedBy = fristCallModel.UserName;
                 fristcall.UpdatedDate = DateTime.Now;
@@ -58,6 +77,25 @@ namespace Nestle_service_api.BL.Outbound
             }
             else
             {
+
+                if (fristCallModel.contact_status == "Available")
+                {
+                    fristCallModel.status_of_case = "Reachable";
+                    fristCallModel.contact_status = "Completed Information";
+                }
+                if (fristCallModel.contact_status == "Not Available" ||
+                    fristCallModel.contact_status == "Busy" ||
+                    fristCallModel.contact_status == "Missed call" ||
+                    fristCallModel.contact_status == "On behalf of owner" ||
+                    fristCallModel.contact_status == "Busy")
+                {
+                    fristCallModel.status_of_case = "Unreachable";
+                }
+                if (fristCallModel.contact_status == "Wrong number")
+                {
+                    fristCallModel.status_of_case = "Not Called";
+                }
+
                 var _fristcall = new tb_outbound_first_call
                 {
                     ob_date = DateTime.Now,
@@ -90,11 +128,14 @@ namespace Nestle_service_api.BL.Outbound
                 create_date = DateTime.Now,
                 status_of_case = fristCallModel.status_of_case,
                 status_of_contact = fristCallModel.contact_status,
-                CreatedBy = UserName,
-                CreatedDate = DateTime.Now
+                step = 1,
+                CreatedBy = fristCallModel.UserName,
+                CreatedDate = DateTime.Now,
+                UpdatedBy = fristCallModel.UserName,
+                UpdatedDate = DateTime.Now,
             };
 
-
+            await AddLogFirst(inbound);
             return true;
         }
 
@@ -103,10 +144,29 @@ namespace Nestle_service_api.BL.Outbound
 
             var secondcall = secondcallRepository.Table.Where(x => x.IsActive && x.case_id == secondCallModel.case_id).FirstOrDefault();
             DateTime? nullDateTime = null;
+            if (secondCallModel.contact_status == "Available")
+            {
+                secondCallModel.status_of_case = "Reachable";
+                secondCallModel.contact_status = "Completed Information";
+            }
+            if (secondCallModel.contact_status == "Not Available" ||
+                secondCallModel.contact_status == "Busy" ||
+                secondCallModel.contact_status == "Missed call" ||
+                secondCallModel.contact_status == "On behalf of owner" ||
+                secondCallModel.contact_status == "Busy")
+            {
+                secondCallModel.status_of_case = "Unreachable";
+            }
+            if (secondCallModel.contact_status == "Wrong number")
+            {
+                secondCallModel.status_of_case = "Not Called";
+            }
+
             if (secondcall != null)
             {
                 secondcall.ob_date = secondCallModel.ob_date;
                 secondcall.ob_time = secondCallModel.ob_time;
+                secondcall.case_status = secondCallModel.case_status;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
                 secondcall.consurmer_surmer = secondCallModel.consurmer_surmer;
@@ -124,11 +184,29 @@ namespace Nestle_service_api.BL.Outbound
             }
             else
             {
+                if (secondCallModel.contact_status == "Available")
+                {
+                    secondCallModel.status_of_case = "Reachable";
+                    secondCallModel.contact_status = "Completed Information";
+                }
+                if (secondCallModel.contact_status == "Not Available" ||
+                    secondCallModel.contact_status == "Busy" ||
+                    secondCallModel.contact_status == "Missed call" ||
+                    secondCallModel.contact_status == "On behalf of owner" ||
+                    secondCallModel.contact_status == "Busy")
+                {
+                    secondCallModel.status_of_case = "Unreachable";
+                }
+                if (secondCallModel.contact_status == "Wrong number")
+                {
+                    secondCallModel.status_of_case = "Not Called";
+                }
                 var _secondcall = new tb_outbound_second_call
                 {
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
                     contact_status = secondCallModel.contact_status,
+                    case_status = secondCallModel.case_status,
                     consurmer_name = secondCallModel.consurmer_name,
                     consurmer_surmer = secondCallModel.consurmer_surmer,
                     owner_mobile_number = secondCallModel.owner_mobile_number,
@@ -155,11 +233,14 @@ namespace Nestle_service_api.BL.Outbound
                 create_date = DateTime.Now,
                 status_of_case = secondCallModel.status_of_case,
                 status_of_contact = secondCallModel.contact_status,
+                step = 2,
                 CreatedBy = secondCallModel.UserName,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                UpdatedBy = secondCallModel.UserName,
+                UpdatedDate = DateTime.Now,
             };
 
-            await AddLog(inbound);
+            await AddLogSecond(inbound);
 
             return true;
         }
@@ -275,7 +356,7 @@ namespace Nestle_service_api.BL.Outbound
             return new ResponseViewModel<SecondCallModel> { data = secondcall.ToList(), totalCount = total };
         }
 
-        public async Task<bool> AddLog(tb_logs_outbound logsInbound)
+        public async Task<bool> AddLogFirst(tb_logs_outbound logsInbound)
         {
             var registerHeading = nestle_Connect.tb_RegisterHeading.Where(x => x.id_master == logsInbound.case_id).FirstOrDefault();
 
@@ -286,7 +367,7 @@ namespace Nestle_service_api.BL.Outbound
                 nestle_Connect.SaveChanges();
             }
 
-            var outboundlogs = outboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number_of_repeat).FirstOrDefault();
+            var outboundlogs = outboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id && x.step == 1).OrderByDescending(x => x.number_of_repeat).FirstOrDefault();
 
             var inbound = new tb_logs_outbound
             {
@@ -296,8 +377,44 @@ namespace Nestle_service_api.BL.Outbound
                 number_of_repeat = outboundlogs == null ? 1 : outboundlogs.number_of_repeat + 1,
                 status_of_case = logsInbound.status_of_case,
                 status_of_contact = logsInbound.status_of_contact,
-                CreatedBy = UserName,
-                CreatedDate = DateTime.Now
+                step = logsInbound.step,
+                CreatedBy = logsInbound.CreatedBy,
+                CreatedDate = DateTime.Now,
+                UpdatedBy = logsInbound.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+
+            await outboundlogsRepository.AddAsync(inbound);
+
+            return true;
+        }
+
+        public async Task<bool> AddLogSecond(tb_logs_outbound logsInbound)
+        {
+            var registerHeading = nestle_Connect.tb_RegisterHeading.Where(x => x.id_master == logsInbound.case_id).FirstOrDefault();
+
+            if (registerHeading != null)
+            {
+                registerHeading.number_of_calls += 1;
+                nestle_Connect.tb_RegisterHeading.Update(registerHeading);
+                nestle_Connect.SaveChanges();
+            }
+
+            var outboundlogs = outboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id && x.step == 2).OrderByDescending(x => x.number_of_repeat).FirstOrDefault();
+
+            var inbound = new tb_logs_outbound
+            {
+                case_id = logsInbound.case_id,
+                aqent_name = logsInbound.aqent_name,
+                create_date = DateTime.Now,
+                number_of_repeat = outboundlogs == null ? 1 : outboundlogs.number_of_repeat + 1,
+                status_of_case = logsInbound.status_of_case,
+                status_of_contact = logsInbound.status_of_contact,
+                step = logsInbound.step,
+                CreatedBy = logsInbound.CreatedBy,
+                CreatedDate = DateTime.Now,
+                UpdatedBy = logsInbound.UpdatedBy,
+                UpdatedDate = DateTime.Now
             };
 
             await outboundlogsRepository.AddAsync(inbound);
@@ -341,8 +458,9 @@ namespace Nestle_service_api.BL.Outbound
             {
                 int total = 0;
                 var Results = context.Set<OutboundCallViewModel>().FromSqlRaw("EXEC dbo.sp_GetOutboundCallAll @PageNumber={0}", PageNumber).ToList();
+                Results = Results.Where(x => x.second_contact_status != "Completed Information").ToList();
 
-                return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; ;
+                return new ResponseViewModel<OutboundCallViewModel> { data = Results.ToList(), totalCount = total }; 
             }
             catch (Exception ex)
             {

@@ -13,6 +13,7 @@ namespace Nestle_service_api.Model
         public string aqent_name { get; set; }
         public DateTime create_date { get; set; }
         public Int32 number_of_repeat { get; set; }
+        public Int32 step { get; set; }
         public string status_of_case { get; set; }
         public string status_of_contact { get; set; }
     }

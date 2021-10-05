@@ -10,6 +10,7 @@ namespace Nestle_service_api.ViewModel
         public Int32 Id { get; set; }
         public DateTime ob_date { get; set; }
         public string ob_time { get; set; }
+        public string case_status { get; set; }
         public string contact_status { get; set; }
         public string consurmer_name { get; set; }
         public string consurmer_surmer { get; set; }
