@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Nestle_service_api.Common;
 using Nestle_service_api.Context;
 using Nestle_service_api.Model;
 using Nestle_service_api.ViewModel;
@@ -7,9 +10,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,12 +28,14 @@ namespace Nestle_service_api.Controllers
 
         private readonly Nestle_Connect _Nestle_Connect;
         private readonly SPContext context;
+        private readonly ILogger<Survey_Link> logger;
         //private readonly Fcc_Connect _fcc_Connect;
-        public Survey_Link(Nestle_Connect Nestle_Connect, SPContext _context)
+        public Survey_Link(Nestle_Connect Nestle_Connect, SPContext _context, ILogger<Survey_Link> _logger)
         {
             _Nestle_Connect = Nestle_Connect;
             // _fcc_Connect = fcc_Connect;
             context = _context;
+            logger = _logger;
         }
 
         [HttpPost]
@@ -246,7 +253,7 @@ namespace Nestle_service_api.Controllers
 
                 return NotFound();
             }
-            
+
 
         }
         [HttpGet]
@@ -408,6 +415,51 @@ namespace Nestle_service_api.Controllers
             }
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> loginToken(loig u)
+        {
+            try
+            {
+                var data = _Nestle_Connect.tb_user_login.Where(x => x.user_ == u.user_ && x.password_ == u.password_)
+          .Select(s => new loig
+          {
+              id = s.id,
+              user_ = s.user_,
+              password_ = s.password_
+          }).FirstOrDefault();
+
+                return Ok(TakeToken(data));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.GetFullErrorText().Message);
+                return BadRequest(ex.GetFullErrorText().Message);
+            }
+        }
+
+        private loig TakeToken(loig user)
+        {
+            var key = Encoding.ASCII.GetBytes("SGVsbG9NZWxvbnNvZnRQaWNraW5n");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                            new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
+                            new Claim(ClaimTypes.Name,user.user_)
+                }),
+                NotBefore = DateTime.Now,
+                IssuedAt = DateTime.Now,
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+            user.Token = tokenString;
+            return user;
+        }
+
         //private void savelog(tbMessageLog data)
         //{
         //    try
@@ -423,6 +475,6 @@ namespace Nestle_service_api.Controllers
             string hex = BitConverter.ToString(bytes);
             hex = hex.Replace("-", "");
             return hex;
-        }        
+        }
     }
 }

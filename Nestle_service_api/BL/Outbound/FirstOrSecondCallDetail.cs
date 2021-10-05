@@ -34,7 +34,7 @@ namespace Nestle_service_api.BL.Outbound
         public async Task<bool> AddOrUpdate(FirstCallModel fristCallModel)
         {
 
-            var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.Id == fristCallModel.Id).FirstOrDefault();
+            var fristcall = fristcallRepository.Table.Where(x => x.IsActive && x.case_id == fristCallModel.case_id).FirstOrDefault();
             DateTime? nullDateTime = null;
             if (fristcall != null)
             {
@@ -99,7 +99,7 @@ namespace Nestle_service_api.BL.Outbound
         public async Task<bool> AddOrUpdate(SecondCallModel secondCallModel)
         {
 
-            var secondcall = secondcallRepository.Table.Where(x => x.IsActive && x.Id == secondCallModel.Id).FirstOrDefault();
+            var secondcall = secondcallRepository.Table.Where(x => x.IsActive && x.case_id == secondCallModel.case_id).FirstOrDefault();
             DateTime? nullDateTime = null;
             if (secondcall != null)
             {
