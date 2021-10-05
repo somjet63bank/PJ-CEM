@@ -155,7 +155,7 @@ namespace Nestle_service_api.BL.Outbound
                 create_date = DateTime.Now,
                 status_of_case = secondCallModel.status_of_case,
                 status_of_contact = secondCallModel.contact_status,
-                CreatedBy = UserName,
+                CreatedBy = secondCallModel.UserName,
                 CreatedDate = DateTime.Now
             };
 
