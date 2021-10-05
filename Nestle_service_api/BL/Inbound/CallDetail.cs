@@ -142,7 +142,7 @@ namespace Nestle_service_api.BL.Inbound
 
             return inboundCase;
         }
-        public async Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip, int take)
+        public async Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip)
         {
             var query = inboundCaseRepository.Table.Where(x => x.IsActive && x.status_case != "Close");
 
@@ -150,7 +150,7 @@ namespace Nestle_service_api.BL.Inbound
                 query = query.Where(x => x.name.Contains(key) || x.contact_number.Contains(key));
 
             int total = 0;
-            var inboundCases = query.OrderBy(x => x.CreatedDate).Get(out total, skip, take)
+            var inboundCases = query.OrderBy(x => x.CreatedDate).Get(out total, skip, 100)
                                 .Select(s => new InboundCaseModel
                                 {
                                     Id = s.Id,

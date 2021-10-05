@@ -14,6 +14,6 @@ namespace Nestle_service_api.BL.Inbound
         Task<bool> Delete(int id);
         Task<InboundCaseModel> Get(int id);
         Task<bool> AddLog(tb_logs_inbound logsInbound);
-        Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip, int take);
+        Task<ResponseViewModel<InboundCaseModel>> Get(string key, int skip);
     }
 }

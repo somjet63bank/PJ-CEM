@@ -68,11 +68,11 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Filter(string KeywordSearch, int skip, int take)
+        public async Task<IActionResult> Filter(string KeywordSearch, int skip)
         {
             try
             {
-                return Ok(await callDetail.Get(KeywordSearch, skip, take));
+                return Ok(await callDetail.Get(KeywordSearch, skip));
             }
             catch (Exception ex)
             {
