@@ -50,6 +50,7 @@ namespace Nestle_service_api.BL.Outbound
                 fristcall.discount_code_exp_date = fristCallModel.discount_code_exp_date;
                 fristcall.interested_brand_ambassador = fristCallModel.interested_brand_ambassador;
                 fristcall.tellscore_registration_status = fristCallModel.tellscore_registration_status;
+                fristcall.convenient_to_chat = fristCallModel.convenient_to_chat; 
                 fristcall.case_id = fristCallModel.case_id;
                 fristcall.UpdatedBy = fristCallModel.UserName;
                 fristcall.UpdatedDate = DateTime.Now;
@@ -71,6 +72,7 @@ namespace Nestle_service_api.BL.Outbound
                     discount_code_exp_date = fristCallModel.discount_code_exp_date,
                     interested_brand_ambassador = fristCallModel.interested_brand_ambassador,
                     tellscore_registration_status = fristCallModel.tellscore_registration_status,
+                    convenient_to_chat = fristCallModel.convenient_to_chat,
                     case_id = fristCallModel.case_id,
                     UpdatedBy = fristCallModel.UserName,
                     UpdatedDate = DateTime.Now,
@@ -114,6 +116,7 @@ namespace Nestle_service_api.BL.Outbound
                 secondcall.interested_brand_ambassador = secondCallModel.interested_brand_ambassador;
                 secondcall.tellscore_registration_status = secondCallModel.tellscore_registration_status;
                 secondcall.reasons_register = secondCallModel.reasons_register;
+                secondcall.convenient_to_chat = secondCallModel.convenient_to_chat;
                 secondcall.case_id = secondCallModel.case_id;
                 secondcall.UpdatedBy = secondCallModel.UserName;
                 secondcall.UpdatedDate = DateTime.Now;
@@ -134,6 +137,7 @@ namespace Nestle_service_api.BL.Outbound
                     interested_brand_ambassador = secondCallModel.interested_brand_ambassador,
                     tellscore_registration_status = secondCallModel.tellscore_registration_status,
                     reasons_register = secondCallModel.reasons_register,
+                    convenient_to_chat = secondCallModel.convenient_to_chat,
                     case_id = secondCallModel.case_id,
                     UpdatedBy = secondCallModel.UserName,
                     UpdatedDate = DateTime.Now,

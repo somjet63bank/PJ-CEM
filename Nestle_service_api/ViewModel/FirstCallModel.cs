@@ -23,6 +23,8 @@ namespace Nestle_service_api.ViewModel
         public string status_of_case { get; set; }
         public string case_id { get; set; }
         public string UserName { get; set; }
+        public string convenient_to_chat { get; set; }
+        
 
     }
 }

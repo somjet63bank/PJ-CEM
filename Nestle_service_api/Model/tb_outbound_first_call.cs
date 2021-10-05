@@ -13,6 +13,7 @@ namespace Nestle_service_api.Model
         public string consurmer_name { get; set; }
         public string consurmer_surmer { get; set; }
         public string owner_mobile_number { get; set; }
+        public string convenient_to_chat { get; set; }
         public DateTime? callback_customer_date { get; set; }
         public string use_discount_code { get; set; }
         public string discount_code_for { get; set; }
