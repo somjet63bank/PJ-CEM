@@ -474,11 +474,6 @@ namespace Nestle_service_api.BL.Outbound
                 {
                     if (item.first_contact_status != "Wrong number")
                     {
-                        if (item.second_contact_status != "Completed Information")
-                        {
-                            list.Add(item);
-                        }
-
                         if (item.first_contact_status == "Completed Information")
                         {
                             DateTime currentdate = item.UpdatedDate.Value.AddDays(7);
@@ -488,6 +483,10 @@ namespace Nestle_service_api.BL.Outbound
                                 if (item.second_contact_status != "Completed Information")
                                     list.Add(item);
                             }
+                        }
+                        else if (item.second_contact_status != "Completed Information")
+                        {
+                            list.Add(item);
                         }
                     }
                 }
