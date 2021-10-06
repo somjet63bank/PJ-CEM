@@ -8,7 +8,7 @@ namespace Nestle_service_api.ViewModel
     public class SecondCallModel
     {
         public Int32 Id { get; set; }
-        public DateTime ob_date { get; set; }
+        public DateTime? ob_date { get; set; }
         public string ob_time { get; set; }
         public string case_status { get; set; }
         public string contact_status { get; set; }
