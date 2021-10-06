@@ -28,9 +28,10 @@ namespace Nestle_service_api.ViewModel
         public string zip_code { get; set; }
         public int number_of_calls { get; set; }
         public string first_contact_status { get; set; }
-        public string second_contact_status { get; set; }
+        public string second_contact_status { get; set; }       
         public string convenient_to_chat { get; set; }     
         public string interested_brand_ambassador { get; set; }
         public string tellscore_registration_status { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 }

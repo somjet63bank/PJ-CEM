@@ -59,6 +59,10 @@ namespace Nestle_service_api.BL.Outbound
             {
                 fristcall.ob_date = DateTime.Now;
                 fristcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
+                fristcall.verify_phone_number = fristCallModel.verify_phone_number;
+                fristcall.new_phone_number = fristCallModel.new_phone_number;
+                fristcall.ask_more = fristCallModel.ask_more;
+                fristcall.inquiry = fristCallModel.inquiry;
                 fristcall.case_status = fristCallModel.status_of_case;
                 fristcall.contact_status = fristCallModel.contact_status;
                 fristcall.consurmer_name = fristCallModel.consurmer_name;
@@ -101,6 +105,10 @@ namespace Nestle_service_api.BL.Outbound
                 {
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
+                    verify_phone_number = fristCallModel.verify_phone_number,
+                    new_phone_number = fristCallModel.new_phone_number,
+                    ask_more = fristCallModel.ask_more,
+                    inquiry = fristCallModel.inquiry,
                     case_status = fristCallModel.status_of_case,
                     contact_status = fristCallModel.contact_status,
                     consurmer_name = fristCallModel.consurmer_name,
@@ -467,7 +475,20 @@ namespace Nestle_service_api.BL.Outbound
                     if (item.first_contact_status != "Wrong number")
                     {
                         if (item.second_contact_status != "Completed Information")
+                        {
                             list.Add(item);
+                        }
+
+                        if (item.first_contact_status == "Completed Information")
+                        {
+                            DateTime currentdate = item.UpdatedDate.Value.AddDays(7);
+
+                            if (currentdate.ToShortDateString() == DateTime.Now.ToShortDateString() || DateTime.Now > currentdate)
+                            {
+                                if (item.second_contact_status != "Completed Information")
+                                    list.Add(item);
+                            }
+                        }
                     }
                 }
 

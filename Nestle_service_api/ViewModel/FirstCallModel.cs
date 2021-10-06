@@ -24,7 +24,9 @@ namespace Nestle_service_api.ViewModel
         public string case_id { get; set; }
         public string UserName { get; set; }
         public string convenient_to_chat { get; set; }
-        
-
+        public bool verify_phone_number { get; set; }
+        public string new_phone_number { get; set; }
+        public bool ask_more { get; set; }
+        public string inquiry { get; set; }
     }
 }

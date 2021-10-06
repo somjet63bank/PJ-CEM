@@ -21,6 +21,10 @@ namespace Nestle_service_api.Model
         public string discount_code_exp_date { get; set; }
         public string interested_brand_ambassador { get; set; }
         public string tellscore_registration_status { get; set; }
+        public bool? verify_phone_number { get; set; }
+        public string new_phone_number { get; set; }
+        public bool? ask_more { get; set; }
+        public string inquiry { get; set; }       
         public string case_id { get; set; }
     }
 }
