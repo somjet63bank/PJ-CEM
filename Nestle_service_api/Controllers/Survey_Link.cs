@@ -476,5 +476,52 @@ namespace Nestle_service_api.Controllers
             hex = hex.Replace("-", "");
             return hex;
         }
+        [HttpGet]
+        public ActionResult<tb_master_link> TDCX_performance_report(string date, string dates)
+        {
+            date = "2021-10-06 00:00:00 AM";
+            dates = "2021-10-06 23:59:59 PM";
+            DateTime newdate = Convert.ToDateTime(date);
+            DateTime newdates = Convert.ToDateTime(dates);
+            var data = _Nestle_Connect.tb_master_link
+                .Where(x => x.create_link_date >= newdate && x.create_link_date <= newdates)
+                 .GroupBy(n => new view_master_link
+                 {
+                     sender = n.sender,
+                     create_send = n.create_send
+                 })
+                 .Select(g => new
+                 {
+                     sender = g.Key.sender,
+                     create_send = g.Key.create_send,
+                     Count = g.Count()
+                 })
+                .OrderBy(x => x.sender).ToList();
+
+            List<view_master_link> list = new List<view_master_link>();
+            foreach (var item in data)
+            {
+                var datamodel = _Nestle_Connect.tb_master_link
+                     .Where(x => x.create_link_date >= newdate && x.create_link_date <= newdates && x.sender == item.sender && x.create_send == item.create_send && x.status == "confirmed")
+                      .ToList().Count();
+
+                var model = new view_master_link
+                {
+                    sender = item.sender,
+                    create_send = item.create_send,
+                    Count = item.Count,
+                    Confirm = datamodel,
+                };
+                list.Add(model);
+            }
+
+
+            if (list.Count != 0)
+            {
+                return Ok(list);
+            }
+            else
+            { return NotFound(); }
+        }
     }
 }
