@@ -17,8 +17,8 @@ namespace Nestle_service_api.BL.Outbound
         Task<bool> Delete(int id);
         Task<FirstCallModel> GetFirstCall(int id);
         Task<SecondCallModel> GetSecondCall(int id);
-        Task<ResponseViewModel<FirstCallModel>> GetFirstCallAll( string key, int skip, int take);
-        Task<ResponseViewModel<SecondCallModel>> GetSecondCallAll(string key, int skip, int take);
+        Task<ResponseViewModel<FirstCallModel>> GetFirstCallAll(DateTime start, DateTime finish, string key, int skip);
+        Task<ResponseViewModel<SecondCallModel>> GetSecondCallAll(DateTime start, DateTime finish, string key, int skip);
         Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundFirstCallAsync(string KeywordSearch ,int PageNumber);
         Task<ResponseViewModel<OutboundCallViewModel>> GetOutboundSecondCallAsync(string KeywordSearch, int PageNumber);
         Task<ResponseViewModel<OutboundCallViewModel>> GetAllOutboundCallAsync( int PageNumber); 

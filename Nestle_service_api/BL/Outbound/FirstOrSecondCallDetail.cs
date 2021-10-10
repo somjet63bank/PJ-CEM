@@ -176,6 +176,11 @@ namespace Nestle_service_api.BL.Outbound
             {
                 secondcall.ob_date = DateTime.Now;
                 secondcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
+                secondcall.verify_phone_number = secondCallModel.verify_phone_number;
+                secondcall.new_phone_number = secondCallModel.new_phone_number;
+                secondcall.ask_more = secondCallModel.ask_more;
+                secondcall.inquiry = secondCallModel.inquiry;
+                secondcall.inform_reason = secondCallModel.inquiry;
                 secondcall.case_status = secondCallModel.status_of_case;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
@@ -215,6 +220,11 @@ namespace Nestle_service_api.BL.Outbound
                 {
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
+                    verify_phone_number = secondCallModel.verify_phone_number,
+                    new_phone_number = secondCallModel.new_phone_number,
+                    ask_more = secondCallModel.ask_more,
+                    inquiry = secondCallModel.inquiry,
+                    inform_reason = secondCallModel.inquiry,
                     contact_status = secondCallModel.contact_status,
                     case_status = secondCallModel.status_of_case,
                     consurmer_name = secondCallModel.consurmer_name,
@@ -311,15 +321,20 @@ namespace Nestle_service_api.BL.Outbound
 
             return secondcall;
         }
-        public async Task<ResponseViewModel<FirstCallModel>> GetFirstCallAll(string key, int skip, int take)
+        public async Task<ResponseViewModel<FirstCallModel>> GetFirstCallAll(DateTime start, DateTime finish, string key, int skip)
         {
+            var f = DateTime.Parse(finish.ToString("yyyy-MM-dd 23:59:59"));
             var query = fristcallRepository.Table.Where(x => x.IsActive);
 
             if (!string.IsNullOrEmpty(key))
                 query = query.Where(x => x.consurmer_name.Contains(key) || x.consurmer_surmer.Contains(key));
 
+
+            if (start != DateTime.MinValue && finish != DateTime.MinValue)
+                query = query.Where(x => x.CreatedDate >= start && x.CreatedDate <= f);
+
             int total = 0;
-            var fristcall = query.OrderBy(x => x.CreatedDate).Get(out total, skip, take)
+            var fristcall = query.OrderBy(x => x.CreatedDate).Get(out total, skip, 50)
                                 .Select(s => new FirstCallModel
                                 {
                                     Id = s.Id,
@@ -339,15 +354,19 @@ namespace Nestle_service_api.BL.Outbound
             return new ResponseViewModel<FirstCallModel> { data = fristcall.ToList(), totalCount = total };
         }
 
-        public async Task<ResponseViewModel<SecondCallModel>> GetSecondCallAll(string key, int skip, int take)
+        public async Task<ResponseViewModel<SecondCallModel>> GetSecondCallAll(DateTime start, DateTime finish, string key, int skip)
         {
+            var f = DateTime.Parse(finish.ToString("yyyy-MM-dd 23:59:59"));
             var query = secondcallRepository.Table.Where(x => x.IsActive);
 
             if (!string.IsNullOrEmpty(key))
                 query = query.Where(x => x.consurmer_name.Contains(key) || x.consurmer_surmer.Contains(key));
 
+            if (start != DateTime.MinValue && finish != DateTime.MinValue)
+                query = query.Where(x => x.CreatedDate >= start && x.CreatedDate <= f);
+
             int total = 0;
-            var secondcall = query.OrderBy(x => x.CreatedDate).Get(out total, skip, take)
+            var secondcall = query.OrderBy(x => x.CreatedDate).Get(out total, skip, 50)
                                 .Select(s => new SecondCallModel
                                 {
                                     Id = s.Id,

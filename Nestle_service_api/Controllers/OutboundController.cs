@@ -166,11 +166,11 @@ namespace Nestle_service_api.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> FilterFirstCall(string key, int skip, int take)
+        public async Task<IActionResult> FilterFirstCall(DateTime start, DateTime finish, string key, int skip)
         {
             try
             {
-                return Ok(await fristCallDetail.GetFirstCallAll(key, skip, take));
+                return Ok(await fristCallDetail.GetFirstCallAll(start, finish,key, skip));
             }
             catch (Exception ex)
             {
@@ -180,11 +180,11 @@ namespace Nestle_service_api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> FilterSecondCall(string key, int skip, int take)
+        public async Task<IActionResult> FilterSecondCall(DateTime start, DateTime finish, string key, int skip)
         {
             try
             {
-                return Ok(await fristCallDetail.GetSecondCallAll(key, skip, take));
+                return Ok(await fristCallDetail.GetSecondCallAll(start, finish, key, skip));
             }
             catch (Exception ex)
             {
