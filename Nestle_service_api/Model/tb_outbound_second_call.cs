@@ -21,5 +21,10 @@ namespace Nestle_service_api.Model
         public string reasons_register { get; set; }    
         public string tellscore_registration_status { get; set; }
         public string case_id { get; set; }
+        public bool? verify_phone_number { get; set; }
+        public string new_phone_number { get; set; }
+        public bool? ask_more { get; set; }
+        public string inform_reason { get; set; }
+        public string inquiry { get; set; }
     }
 }

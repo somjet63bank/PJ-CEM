@@ -176,6 +176,11 @@ namespace Nestle_service_api.BL.Outbound
             {
                 secondcall.ob_date = DateTime.Now;
                 secondcall.ob_time = DateTime.Now.ToString("HH:mm:ss tt");
+                secondcall.verify_phone_number = secondCallModel.verify_phone_number;
+                secondcall.new_phone_number = secondCallModel.new_phone_number;
+                secondcall.ask_more = secondCallModel.ask_more;
+                secondcall.inquiry = secondCallModel.inquiry;
+                secondcall.inform_reason = secondCallModel.inquiry;
                 secondcall.case_status = secondCallModel.status_of_case;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
@@ -215,6 +220,11 @@ namespace Nestle_service_api.BL.Outbound
                 {
                     ob_date = DateTime.Now,
                     ob_time = DateTime.Now.ToString("HH:mm:ss tt"),
+                    verify_phone_number = secondCallModel.verify_phone_number,
+                    new_phone_number = secondCallModel.new_phone_number,
+                    ask_more = secondCallModel.ask_more,
+                    inquiry = secondCallModel.inquiry,
+                    inform_reason = secondCallModel.inquiry,
                     contact_status = secondCallModel.contact_status,
                     case_status = secondCallModel.status_of_case,
                     consurmer_name = secondCallModel.consurmer_name,
