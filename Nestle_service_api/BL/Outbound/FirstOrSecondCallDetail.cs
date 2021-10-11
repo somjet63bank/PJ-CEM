@@ -493,19 +493,22 @@ namespace Nestle_service_api.BL.Outbound
                 {
                     if (item.first_contact_status != "Wrong number")
                     {
-                        if (item.first_contact_status == "Completed Information")
+                        if (item.interested_brand_ambassador != "N")
                         {
-                            DateTime currentdate = item.UpdatedDate.Value.AddDays(7);
-
-                            if (currentdate.ToShortDateString() == DateTime.Now.ToShortDateString() || DateTime.Now > currentdate)
+                            if (item.first_contact_status == "Completed Information")
                             {
-                                if (item.second_contact_status != "Completed Information")
-                                    list.Add(item);
+                                DateTime currentdate = item.UpdatedDate.Value.AddDays(7);
+
+                                if (currentdate.ToShortDateString() == DateTime.Now.ToShortDateString() || DateTime.Now > currentdate)
+                                {
+                                    if (item.second_contact_status != "Completed Information")
+                                        list.Add(item);
+                                }
                             }
-                        }
-                        else if (item.second_contact_status != "Completed Information")
-                        {
-                            list.Add(item);
+                            else if (item.second_contact_status != "Completed Information")
+                            {
+                                list.Add(item);
+                            }
                         }
                     }
                 }
