@@ -257,6 +257,25 @@ namespace Nestle_service_api.Controllers
 
         }
         [HttpGet]
+        public ActionResult<string> Getsegment_auto_bigfan(string idmaster)
+        {
+            var data = _Nestle_Connect.tb_segment.Where(x => x.id_master == idmaster).ToList();
+            if (data.Count !=0)
+            {
+                tb_segment s = _Nestle_Connect.tb_segment.Where(x => x.id_master == idmaster).FirstOrDefault();
+
+                s.consumer_segment = "BigFan";
+                s.auto_bigfan = true;
+                _Nestle_Connect.Entry(s).State = EntityState.Modified;
+                _Nestle_Connect.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }         
+        }
+        [HttpGet]
         public ActionResult CheckOTP(string OTP, string id)
         {
             var data = _Nestle_Connect.tb_RegisterHeading.Where(x => x.OTP == OTP && x.id_master == id).ToList();
@@ -523,5 +542,6 @@ namespace Nestle_service_api.Controllers
             else
             { return NotFound(); }
         }
+        
     }
 }

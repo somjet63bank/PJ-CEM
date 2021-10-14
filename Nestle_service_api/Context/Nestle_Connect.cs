@@ -35,6 +35,18 @@ namespace Nestle_service_api.Context
         public DbSet<tb_outbound_telesale> tb_outbound_telesale { get; set; }
         public DbSet<tb_Service_Type> tb_Service_Type { get; set; }
         public DbSet<tb_Service_Group> tb_Service_Group { get; set; }
-    }
+        public DbSet<tb_segment> tb_segment { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<tb_segment>(entity =>
+            {
+                entity.HasKey(e => e.tb_id);
+                entity.ToTable("tb_segment");
+            });
+        }
+
+
+    }    
 }

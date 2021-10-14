@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +8,9 @@ namespace Nestle_service_api.Model
 {
     public class tb_segment
     {
-        //[key]
+        [key]
         public int tb_id { get; set; }
+        //[key]
         public string id_master { get; set; }
         public string g1_1_segment { get; set; }
         public string g1_2_segment { get; set; }
@@ -22,6 +24,7 @@ namespace Nestle_service_api.Model
         public string g3_segment { get; set; }
         public string g4_1_segment { get; set; }
         public string g4_2_segment { get; set; }
+        public string g4_3_segment { get; set; }
         public string g4_segment { get; set; }
         public string g5_segment { get; set; }
         public string consumer_segment { get; set; }
@@ -31,5 +34,6 @@ namespace Nestle_service_api.Model
         public string bigfan_sms_2 { get; set; }
         public string influencer_to_bigfan_sms_1 { get; set; }
         public string influencer_to_bigfan_sms_2 { get; set; }
+        public Boolean auto_bigfan { get; set; }
     }
 }
