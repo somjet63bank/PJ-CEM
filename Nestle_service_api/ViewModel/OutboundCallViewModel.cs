@@ -32,6 +32,7 @@ namespace Nestle_service_api.ViewModel
         public string convenient_to_chat { get; set; }     
         public string interested_brand_ambassador { get; set; }
         public string tellscore_registration_status { get; set; }
+        public DateTime? callback_customer_date { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }
 }
