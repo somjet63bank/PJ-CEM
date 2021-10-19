@@ -29,5 +29,9 @@ namespace Nestle_service_api.ViewModel
         public bool? ask_more { get; set; }
         public string inform_reason { get; set; }
         public string inquiry { get; set; }
+        public string answer1 { get; set; }
+        public string answer2 { get; set; }
+        public string answer3 { get; set; }
+        public string answer4 { get; set; }
     }
 }
