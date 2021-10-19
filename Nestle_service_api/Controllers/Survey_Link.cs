@@ -498,10 +498,11 @@ namespace Nestle_service_api.Controllers
         [HttpGet]
         public ActionResult<tb_master_link> TDCX_performance_report(string date, string dates)
         {
-            date = "2021-10-06 00:00:00 AM";
-            dates = "2021-10-06 23:59:59 PM";
-            DateTime newdate = Convert.ToDateTime(date);
-            DateTime newdates = Convert.ToDateTime(dates);
+            //date = "2021-10-06 00:00:00 AM";
+            //dates = "2021-10-19 23:59:59 PM";
+            System.Globalization.CultureInfo _cultureEnInfo = new System.Globalization.CultureInfo("en-US");
+            DateTime newdate = Convert.ToDateTime(date, _cultureEnInfo);
+            DateTime newdates = Convert.ToDateTime(dates, _cultureEnInfo);
             var data = _Nestle_Connect.tb_master_link
                 .Where(x => x.create_link_date >= newdate && x.create_link_date <= newdates)
                  .GroupBy(n => new view_master_link

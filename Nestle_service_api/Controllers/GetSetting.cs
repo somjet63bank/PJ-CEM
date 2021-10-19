@@ -22,6 +22,7 @@ namespace Nestle_service_api.Controllers
         [HttpGet]
         public ActionResult<tb_title> gettitle()
         {
+            
             var data = _Nestle_Connect.tb_title.ToList();
             if (data.Count !=0)
             {
