@@ -192,6 +192,10 @@ namespace Nestle_service_api.BL.Outbound
                 secondcall.tellscore_registration_status = secondCallModel.tellscore_registration_status;
                 secondcall.reasons_register = secondCallModel.reasons_register;
                 secondcall.convenient_to_chat = secondCallModel.convenient_to_chat;
+                secondcall.answer1 = secondCallModel.answer1;
+                secondcall.answer2 = secondCallModel.answer2;
+                secondcall.answer3 = secondCallModel.answer3;
+                secondcall.answer4 = secondCallModel.answer4;
                 secondcall.case_id = secondCallModel.case_id;
                 secondcall.UpdatedBy = secondCallModel.UserName;
                 secondcall.UpdatedDate = DateTime.Now;
@@ -236,6 +240,10 @@ namespace Nestle_service_api.BL.Outbound
                     tellscore_registration_status = secondCallModel.tellscore_registration_status,
                     reasons_register = secondCallModel.reasons_register,
                     convenient_to_chat = secondCallModel.convenient_to_chat,
+                    answer1 = secondCallModel.answer1,
+                    answer2 = secondCallModel.answer2,
+                    answer3 = secondCallModel.answer3,
+                    answer4 = secondCallModel.answer4,
                     case_id = secondCallModel.case_id,
                     UpdatedBy = secondCallModel.UserName,
                     UpdatedDate = DateTime.Now,
