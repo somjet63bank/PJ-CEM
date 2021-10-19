@@ -76,6 +76,10 @@ namespace Nestle_service_api.BL.Outbound
                 fristcall.tellscore_registration_status = fristCallModel.tellscore_registration_status;
                 fristcall.convenient_to_chat = fristCallModel.convenient_to_chat;
                 fristcall.case_id = fristCallModel.case_id;
+                fristcall.answer1 = fristCallModel.answer1;
+                fristcall.answer2 = fristCallModel.answer2;
+                fristcall.answer3 = fristCallModel.answer3;
+                fristcall.answer4 = fristCallModel.answer4;
                 fristcall.UpdatedBy = fristCallModel.UserName;
                 fristcall.UpdatedDate = DateTime.Now;
                 await fristcallRepository.UpdateAsync(fristcall);
@@ -122,6 +126,10 @@ namespace Nestle_service_api.BL.Outbound
                     tellscore_registration_status = fristCallModel.tellscore_registration_status,
                     convenient_to_chat = fristCallModel.convenient_to_chat,
                     case_id = fristCallModel.case_id,
+                    answer1 = fristCallModel.answer1,
+                    answer2 = fristCallModel.answer2,
+                    answer3 = fristCallModel.answer3,
+                    answer4 = fristCallModel.answer4,
                     UpdatedBy = fristCallModel.UserName,
                     UpdatedDate = DateTime.Now,
                     CreatedBy = fristCallModel.UserName,

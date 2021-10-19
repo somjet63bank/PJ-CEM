@@ -35,9 +35,13 @@ namespace Nestle_service_api.ViewModel
         public DateTime? first_callback_customer_date { get; set; }
         public DateTime? second_callback_customer_date { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public string answer1 { get; set; }
-        public string answer2 { get; set; }
-        public string answer3 { get; set; }
-        public string answer4 { get; set; }
+        public string first_answer1 { get; set; }
+        public string first_answer2 { get; set; }
+        public string first_answer3 { get; set; }
+        public string first_answer4 { get; set; }
+        public string second_answer1 { get; set; }
+        public string second_answer2 { get; set; }
+        public string second_answer3 { get; set; }
+        public string second_answer4 { get; set; }
     }
 }
