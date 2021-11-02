@@ -517,13 +517,14 @@ namespace Nestle_service_api.BL.Outbound
 
                                 if (currentdate.ToShortDateString() == DateTime.Now.ToShortDateString() || DateTime.Now > currentdate)
                                 {
-                                    if (item.second_contact_status != "Completed Information")
+                                    if (item.second_contact_status != "Completed Information" && item.tellscore_registration_status != "Y")
                                         list.Add(item);
                                 }
                             }
                             else if (item.second_contact_status != "Completed Information")
                             {
-                                list.Add(item);
+                                if (item.tellscore_registration_status != "Y")
+                                    list.Add(item);
                             }
                         }
                     }
