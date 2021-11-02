@@ -496,53 +496,24 @@ namespace Nestle_service_api.Controllers
             return hex;
         }
         [HttpGet]
-        public ActionResult<tb_master_link> TDCX_performance_report(string date, string dates)
+        public async Task <IActionResult> tdcx_performance(string StartDate, string EndDate)
         {
-            //date = "2021-10-06 00:00:00 AM";
-            //dates = "2021-10-19 23:59:59 PM";
-            System.Globalization.CultureInfo _cultureEnInfo = new System.Globalization.CultureInfo("en-US");
-            DateTime newdate = Convert.ToDateTime(date, _cultureEnInfo);
-            DateTime newdates = Convert.ToDateTime(dates, _cultureEnInfo);
-            var data = _Nestle_Connect.tb_master_link
-                .Where(x => x.create_link_date >= newdate && x.create_link_date <= newdates)
-                 .GroupBy(n => new view_master_link
-                 {
-                     sender = n.sender,
-                     create_send = n.create_send
-                 })
-                 .Select(g => new
-                 {
-                     sender = g.Key.sender,
-                     create_send = g.Key.create_send,
-                     Count = g.Count()
-                 })
-                .OrderBy(x => x.sender).ToList();
-
-            List<view_master_link> list = new List<view_master_link>();
-            foreach (var item in data)
+            //var StartDate = DateTime.Parse(date1.ToString("yyyy-MM-dd 00:00:00"));
+            //var EndDate = DateTime.Parse(date2.ToString("yyyy-MM-dd 23:59:59"));
+            string date1 = StartDate + " 00:00:00";
+            string date2 = EndDate + " 23:59:59";
+            try
             {
-                var datamodel = _Nestle_Connect.tb_master_link
-                     .Where(x => x.create_link_date >= newdate && x.create_link_date <= newdates && x.sender == item.sender && x.create_send == item.create_send && x.status == "confirmed")
-                      .ToList().Count();
+                var Results = context.Set<tdcx_report>().FromSqlRaw("EXEC [dbo].[sp_tdcx_report] @StartDate={0},@EndDate={1}", date1, date2).ToList();
 
-                var model = new view_master_link
-                {
-                    sender = item.sender,
-                    create_send = item.create_send,
-                    Count = item.Count,
-                    Confirm = datamodel,
-                };
-                list.Add(model);
+                return Ok(Results);
             }
-
-
-            if (list.Count != 0)
+            catch (Exception ex)
             {
-                return Ok(list);
+
+                return NotFound();
             }
-            else
-            { return NotFound(); }
         }
-        
+
     }
 }
