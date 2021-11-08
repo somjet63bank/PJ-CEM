@@ -188,7 +188,7 @@ namespace Nestle_service_api.BL.Outbound
                 secondcall.new_phone_number = secondCallModel.new_phone_number;
                 secondcall.ask_more = secondCallModel.ask_more;
                 secondcall.inquiry = secondCallModel.inquiry;
-                secondcall.inform_reason = secondCallModel.inquiry;
+                secondcall.inform_reason = secondCallModel.inform_reason;
                 secondcall.case_status = secondCallModel.status_of_case;
                 secondcall.contact_status = secondCallModel.contact_status;
                 secondcall.consurmer_name = secondCallModel.consurmer_name;
@@ -236,7 +236,7 @@ namespace Nestle_service_api.BL.Outbound
                     new_phone_number = secondCallModel.new_phone_number,
                     ask_more = secondCallModel.ask_more,
                     inquiry = secondCallModel.inquiry,
-                    inform_reason = secondCallModel.inquiry,
+                    inform_reason = secondCallModel.inform_reason,
                     contact_status = secondCallModel.contact_status,
                     case_status = secondCallModel.status_of_case,
                     consurmer_name = secondCallModel.consurmer_name,
