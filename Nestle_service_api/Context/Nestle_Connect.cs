@@ -36,7 +36,6 @@ namespace Nestle_service_api.Context
         public DbSet<tb_Service_Type> tb_Service_Type { get; set; }
         public DbSet<tb_Service_Group> tb_Service_Group { get; set; }
         public DbSet<tb_segment> tb_segment { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

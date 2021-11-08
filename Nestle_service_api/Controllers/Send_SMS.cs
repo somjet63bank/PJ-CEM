@@ -39,8 +39,7 @@ namespace Nestle_service_api.Controllers
 
         }
         private bool _sendSMS_dtac(string _sender, string _refID, string _projectID, string _telno, string _msg)
-        {
-            
+        {           
             try
             {
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api05.fcc.co.th/api/Send_SMS/SendMsg");

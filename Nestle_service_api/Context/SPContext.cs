@@ -19,6 +19,7 @@ namespace Nestle_service_api.Context
         {
             modelBuilder.Entity<OutboundCallViewModel>().HasNoKey().ToView(null);
             modelBuilder.Entity<tb_segment>().HasNoKey().ToView(null);
+            modelBuilder.Entity<tdcx_report>().HasNoKey().ToView(null);
         }
 
     }
